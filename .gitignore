@@ -2,6 +2,5 @@
 .env
 poetry.lock
 pyproject.toml
-Lavalink.jar
 keep_alive.py 
 /logs/

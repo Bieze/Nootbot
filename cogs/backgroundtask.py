@@ -18,6 +18,14 @@ f"""
 ```
 """)
 
+  @commands.Cog.listener()
+  async def on_message(message):
+      word_list = ['<@731371995979055136>']
+
+      for word in word_list():
+          if message.content.count(word) > 0:
+              await message.channel.send("Why did you ping me scrub? You know I'm busy barking at my owner noob, my prefix is n!")
+
 def setup(client):
     client.add_cog(Background(client))
     return
