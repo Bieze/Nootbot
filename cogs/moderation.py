@@ -123,6 +123,32 @@ class moderation(commands.Cog):
         em.set_footer(icon_url=ctx.guild.icon_url, text=f"Requested by {ctx.author.name} at ")
         await ctx.send(embed=em)
 
+  @commands.command()
+  @commands.guild_only()
+  @commands.has_permissions(manage_messages=True)
+  async def mute(self, ctx, member : discord.Member=None):
+        role = get(ctx.guild.roles, name="Muted")
+        if member == None:
+              emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", color=0xff0000)
+              await ctx.send(embed=emd)
+        else:
+              await member.add_roles(role)
+              em = discord.Embed(description="<:Nootsuccess:777332367853355009> Muted " + member.name, color=0x32CD32)
+              await ctx.send(embed=em)
+
+  @commands.command()
+  @commands.guild_only()
+  @commands.has_permissions(manage_messages=True)
+  async def unmute(self, ctx, member : discord.Member=None):
+        role = get(ctx.guild.roles, name="Muted")
+        if member == None:
+              emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", color=0xff0000)
+              await ctx.send(embed=emd)
+        else:
+              await member.remove_roles(role)
+              em = discord.Embed(description="<:Nootsuccess:777332367853355009> Unmuted " + member.name, color=0x32CD32)
+              await ctx.send(embed=em)
+
 
 def setup(client):
     client.add_cog(moderation(client))
