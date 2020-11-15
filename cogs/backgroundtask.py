@@ -8,7 +8,7 @@ class Background(commands.Cog):
   
   @commands.Cog.listener()
   async def on_command_error(self, ctx, error):
-    em = discord.Embed(title="Uh Oh!", description="<:Nooterror:777330881845133352> [Something went wrong! The problem has been reported](https://discord.gg/BFMueAWxKW.)", color=0xff0000)
+    em = discord.Embed(title="Uh Oh!", description="<:Nooterror:777330881845133352> [Something went wrong! The problem has been reported](https://discord.gg/BFMueAWxKW.) Or you could be missing some permissions make sure to go the error page to find out.", color=0xff0000)
     await ctx.send(embed=em)
     print(error)
 
@@ -19,6 +19,7 @@ f"""
 {error}
 ```
 """)
+    
 
   @commands.Cog.listener()
   async def on_guild_join(self, guild):
