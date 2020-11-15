@@ -150,6 +150,8 @@ class moderation(commands.Cog):
               await ctx.send(embed=em)
 
 
+# Unmute and Mute commands up for improvements!
+
 def setup(client):
     client.add_cog(moderation(client))
     return
