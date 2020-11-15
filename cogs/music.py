@@ -95,12 +95,12 @@ class Music(commands.Cog):
       player = self.client.lavalink.player_manager.get(ctx.guild.id)
       if player.repeat == True:
         player.repeat = False
-        em = discord.Embed(description="Looping disabled!", color=0x1F46A1)
+        em = discord.Embed(description="Looping disabled!", color=0x4B0082)
         await ctx.message.add_reaction(str('🔄'))
         await ctx.send(embed=em)
       else:
         player.repeat = True
-        em = discord.Embed(description="Looping enabled!",color=0x1F46A1)
+        em = discord.Embed(description="Looping enabled!",color=0x4B0082)
         await ctx.message.add_reaction(str('🔄'))
         await ctx.send(embed=em)
 
@@ -108,7 +108,7 @@ class Music(commands.Cog):
     async def skip(self, ctx):
       player = self.client.lavalink.player_manager.get(ctx.guild.id)
       await player.skip()
-      em = discord.Embed(description="Skipped!", color=0x1F46A1)
+      em = discord.Embed(description="Skipped!", color=0x4B0082)
       await ctx.message.add_reaction(str('➡️'))
       await ctx.send(embed=em)
 
@@ -133,7 +133,7 @@ class Music(commands.Cog):
         if not results or not results['tracks']:
             return await ctx.send('Nothing found!')
 
-        embed = discord.Embed(color=0x1F46A1)
+        embed = discord.Embed(color=0x4B0082)
 
         # Valid loadTypes are:
         #   TRACK_LOADED    - single video/direct URL)
@@ -223,7 +223,7 @@ class Music(commands.Cog):
         if not results or not results['tracks']:
             return await ctx.send('Nothing found!')
 
-        embed = discord.Embed(color=0x1F46A1)
+        embed = discord.Embed(color=0x4B0082)
 
         # Valid loadTypes are:
         #   TRACK_LOADED    - single video/direct URL)

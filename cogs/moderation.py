@@ -1,6 +1,9 @@
 import discord
 import datetime
 import asyncio
+import random
+from random import randint
+from discord.utils import get
 from discord.ext import commands
 
 class moderation(commands.Cog):
@@ -10,36 +13,49 @@ class moderation(commands.Cog):
   @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
-  async def ban(self, ctx, member : discord.User, reason="Nothing"):
+  async def ban(self, ctx, member : discord.User=None, *, reason="Nothing"):
+    if member == None:
+        emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", color=0xff0000)
+        await ctx.send(embed=emd)
+    else:
         await ctx.message.delete()
         await ctx.guild.ban(user=member, reason=reason)
-        em=discord.Embed(description=f"<:Nootcheck:776557486210940948> Banned {member.name}", color=0x1F46A1)
+        em=discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {member.name}", color=0x32CD32)
         await ctx.send(embed=em)
         
-        channel = member.create_dm()
-        await channel.send(f"You have been banned from {ctx.guild_name} for {reason}")
+        channel = await member.create_dm()
+        await channel.send(f"You have been banned from {ctx.guild.name} for {reason}" .format(reason))
 
     
   @commands.command()
   @commands.guild_only()
   @commands.has_permissions(kick_members=True)
-  async def kick(self, ctx, member : discord.User, reason="Nothing"):
+  async def kick(self, ctx, member : discord.User=None, *, reason="Nothing"):
+    if member == None:
+        emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", color=0xff0000)
+        await ctx.send(embed=emd)
+    else:
         await ctx.message.delete()
         await ctx.guild.kick(user=member, reason=reason)
-        em=discord.Embed(description=f"<:Nootcheck:776557486210940948> Kicked {member.name}", color=0x1F46A1)
+        em=discord.Embed(description=f"<:Nootsuccess:777332367853355009> Kicked {member.name}", color=0x32CD32)
         await ctx.send(embed=em)
 
-        channel = member.create_dm()
-        await channel.send(f"You have been kicked from {ctx.guild_name} for {reason}")
+        channel = await member.create_dm()
+        await channel.send(f"You have been kicked from {ctx.guild.name} for {reason}" .format(reason))
 
     
   @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
-  async def unban(self, ctx, id):
-        member = await self.client.fetch_user(id)
-        await ctx.guild.unban(user=member)
-        em = discord.Embed(description="<:Nootcheck:776557486210940948> Unbanned the user", color=0x1F46A1)
+  async def unban(self, ctx, userid=None):
+    if id == None:
+        emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a user!", color=0xff0000)
+        await ctx.send(embed=emd)
+    else:
+        username = await self.client.fetch_user(int(userid))
+        user = discord.Object(id=userid)
+        await ctx.guild.unban(user)
+        em = discord.Embed(description=f"<:Nootsuccess:777332367853355009> Unbanned the {username}", color=0x32CD32)
         await ctx.send(embed=em)
 
   @commands.command(aliases=['whois', 'userinfo'])
@@ -60,7 +76,7 @@ class moderation(commands.Cog):
 
         roles = [role for role in member.roles[:1]]
         embed = discord.Embed(
-		    color=0x1F46A1, timestamp=datetime.datetime.utcnow())
+		    color=randint(0, 0xffffff), timestamp=datetime.datetime.utcnow())
         embed.set_author(name=f"{member}", icon_url=member.avatar_url)
         embed.set_thumbnail(url=member.avatar_url)
         embed.add_field(
@@ -81,7 +97,11 @@ class moderation(commands.Cog):
         await ctx.send(embed=embed)
 
   @commands.command()
-  async def say(self, ctx, *, words):
+  async def say(self, ctx, *, words=None):
+    if words == None:
+        em = discord.Embed(description="<:Nooterror:777330881845133352> What do you mean magic man?!", color=0xff0000)
+        await ctx.send(embed=em)
+    else:
         await ctx.message.delete()
         await asyncio.sleep(1)
         await ctx.send("{}" .format(words))
@@ -92,7 +112,7 @@ class moderation(commands.Cog):
         guild = ctx.guild
         em = discord.Embed(
 			title="Information about " + ctx.guild.name,
-			color=0x1F46A1,
+			color=randint(0, 0xffffff),
 			timestamp=datetime.datetime.utcnow())
         em.set_thumbnail(url=ctx.guild.icon_url)
         em.add_field(name="Created at?", value=guild.created_at.strftime('%a, %#d %B %Y, %I:%M %p'), inline=True)
@@ -102,6 +122,7 @@ class moderation(commands.Cog):
         em.add_field(name="Guild id?", value=guild.id)
         em.set_footer(icon_url=ctx.guild.icon_url, text=f"Requested by {ctx.author.name} at ")
         await ctx.send(embed=em)
+
 
 def setup(client):
     client.add_cog(moderation(client))

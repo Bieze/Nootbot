@@ -19,7 +19,7 @@ class redcmds(commands.Cog):
         subreddit = reddit.subreddit("memes")
         all_subs = []
 
-        hot = subreddit.hot(limit = 50)
+        hot = subreddit.hot(limit = 5000)
 
         for submission in hot:
             all_subs.append(submission)
