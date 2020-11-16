@@ -1,7 +1,10 @@
 import discord
 import datetime
 import asyncio
+import json
 import random
+from datetime import date
+import time
 from random import randint
 from discord.utils import get
 from discord.ext import commands
@@ -17,6 +20,8 @@ class moderation(commands.Cog):
     if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
+    elif member == ctx.guild_owner:
+        await ctx.send("<:Nooterror:777330881845133352> Cannot ban guild owner!")
     else:
         await ctx.message.delete()
         await ctx.guild.ban(user=member, reason=reason)
@@ -34,6 +39,8 @@ class moderation(commands.Cog):
     if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
+    elif member == ctx.guild_owner:
+        await ctx.send("<:Nooterror:777330881845133352> Cannot kick guild owner!")
     else:
         await ctx.message.delete()
         await ctx.guild.kick(user=member, reason=reason)
@@ -151,6 +158,42 @@ class moderation(commands.Cog):
 
 
 # Unmute and Mute commands up for improvements!
+
+  @commands.command()
+  async def change(self, ctx, *, status):
+      if ctx.author.id == 541722893747224589:
+        await self.client.change_presence(
+	    activity=discord.Activity(
+	        type=discord.ActivityType.watching,
+	        name="{}" .format(status)))
+        await ctx.send("<:Nootsuccess:777332367853355009> Changed status!")
+      else:
+          em = discord.Embed(description="<:Nooterror:777330881845133352> Sorry, but you don't have permissions to change the bot status!")
+          await ctx.send(embed=em)
+
+  @commands.command()
+  @commands.has_permissions(manage_guild=True)
+  async def prefix(self, ctx, prefix):
+    t = time.localtime()
+    current_time = time.strftime("%I:%M %p", t)
+
+    with open('ServerPrefixes.json', 'r') as f:
+        prefixes = json.load(f)
+
+    prefixes[str(ctx.guild.id)] = prefix
+
+    with open('ServerPrefixes.json', 'w') as f:
+        json.dump(prefixes, f, indent=4)
+
+    embed = discord.Embed(
+        color=discord.Color.green(),
+        title="**Success**",
+        description=f"Prefix changed to `{prefix}`"
+    )
+    embed.set_author(name="Prefix Command.", icon_url=self.client.user.avatar_url)
+    embed.set_footer(text=f"Requested by: {ctx.message.author} | Requested at {current_time}")
+    message = await ctx.send(embed=embed)
+    await message.add_reaction(str('✅'))
 
 def setup(client):
     client.add_cog(moderation(client))

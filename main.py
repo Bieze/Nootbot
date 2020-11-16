@@ -3,11 +3,19 @@ import os
 import sys
 import subprocess
 import time
+import json
 from keep_alive import keep_alive
 sys.dont_write_bytecode = True
 from discord.ext import commands
 
-client = commands.Bot(command_prefix=(os.getenv("PREFIX")), help_command=None)
+
+def get_prefix(client, message):
+    with open('ServerPrefixes.json', 'r') as f:
+        prefixes = json.load(f)
+
+    return prefixes[str(message.guild.id)]
+
+client = commands.Bot(command_prefix=get_prefix, help_command=None)
 
 intents = discord.Intents.all()
 
@@ -25,7 +33,7 @@ async def on_ready():
     await client.change_presence(
 	    activity=discord.Activity(
 	        type=discord.ActivityType.watching,
-	        name=f"if you ping me, don't ping me!!"))
+	        name=f"your servers."))
 
 
 keep_alive()
