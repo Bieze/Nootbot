@@ -61,6 +61,8 @@ class Background(commands.Cog):
 
   @commands.Cog.listener()  
   async def on_command_error(self, ctx, error):
+        c = self.client.get_channel(776583901321101352)
+        await c.send(error)
         # if command has local error handler, return
         if hasattr(ctx.command, 'on_error'):
             return
