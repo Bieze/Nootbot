@@ -4,3 +4,4 @@ poetry.lock
 pyproject.toml
 keep_alive.py 
 /logs/
+errorhandler.txt
