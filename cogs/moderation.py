@@ -195,6 +195,14 @@ class moderation(commands.Cog):
     message = await ctx.send(embed=embed)
     await message.add_reaction(str('✅'))
 
+  
+  @commands.command()
+  async def clear(self, ctx, amount=1):
+      await ctx.channel.purge(limit=amount+1)
+      await ctx.send(f"<:Nootsuccess:777332367853355009> Cleared {amount} messages!")
+      await asyncio.sleep(5)
+      await ctx.channel.purge(limit=1) 
+
 def setup(client):
     client.add_cog(moderation(client))
     return
