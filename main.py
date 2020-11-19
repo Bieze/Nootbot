@@ -32,8 +32,9 @@ async def on_ready():
 		    print(f'loading {filename}')
     await client.change_presence(
 	    activity=discord.Activity(
-	        type=discord.ActivityType.watching,
-	        name=f"your servers."))
+	        type=discord.ActivityType.playing,
+	        name=f"Start up.."))
+    time.sleep(10)
 
 
 keep_alive()
