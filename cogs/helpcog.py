@@ -47,24 +47,11 @@ class Helpcog(commands.Cog):
 
 async def Music(self, ctx):
     prefix = get_prefix(ctx.guild, message=ctx.message)
-    em = discord.Embed(
-        title="Music commands",
-        description=
-        f"""
-        Current prefix: {prefix}
-        **Play** → Plays music
-        **Loop** → Loops queue
-        **Skip** → Skips a song
-        **Queue** → Queues a song
-        **Disconnect** → Disconnects the bot
-        **Pause** → Pauses the song
-        **Resume** → Resumes the song\n\n
-
-        [Support server](https://discord.gg/kTbqgSeDBH)        [Bot invite](https://discord.com/api/oauth2/authorize?client_id=731371995979055136&permissions=8&scope=bot)
-        """, color=0x7b68ee
-        )
-    em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
-    await ctx.send(embed=em)
+    em = discord.Embed(title="Music commands", description=f"""
+        Here are the music commands
+        Current prefix = {prefix}
+        """, color=0x7b68ee)
+    em.add_field(name="🎵 Play", value="Play music.")
 
 
 async def Utils(self, ctx):
