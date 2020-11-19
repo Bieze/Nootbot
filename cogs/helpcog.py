@@ -45,49 +45,69 @@ class Helpcog(commands.Cog):
         else:
             await ctx.send("<:Nooterror:777330881845133352> Help page not found!")
 
+color = 0x7b68ee
+
 async def Music(self, ctx):
     prefix = get_prefix(ctx.guild, message=ctx.message)
-    em = discord.Embed(title="Music commands", description=f"""
-        Here are the music commands
-        Current prefix = {prefix}
-        """, color=0x7b68ee)
-    em.add_field(name="🎵 Play", value="Play music.")
-
-
-async def Utils(self, ctx):
-    prefix = get_prefix(ctx.guild, message=ctx.message)
-    em = discord.Embed(title="Utility commands",
+    em = discord.Embed(
+        title="Music commands",
         description=
         f"""
-        Current prefix: {prefix}
-        [Support server](https://discord.gg/kTbqgSeDBH)        [Bot invite](https://discord.com/api/oauth2/authorize?client_id=731371995979055136&permissions=8&scope=bot)
-        """, color=0x7b68ee)
+        Current prefix: **{prefix}**
+        """
+    )
+    em.add_field(name="🎵 Play", value="Play music")
+    em.add_field(name="🔄 Loop", value="Loop music")
+    em.add_field(name="➡️ Skip", value="Skip music")
+    em.add_field(name="⏺️ Queue", value="Queue music")
+    em.add_field(name="▶️ Pause", value="Pause music")
+    em.add_field(name="⏸ Resume", value="Resume music")
+    em.add_field(name="👋 Disconnect", value="Disconnect bot")
+    em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
     await ctx.send(embed=em)
 
 
 async def mem(self, ctx):
     prefix = get_prefix(ctx.guild, message=ctx.message)
     em = discord.Embed(
-        title="Regular commands",
-        description=
+        title="The best commands",
+        value=
         f"""
-        Current prefix: {prefix}
-        **Server** → Check server stats **User** → Check you or another user's stats
-        **Ping** → Check your latency   **Meme** → Get a meme from reddit
-        **Pup** → Get pup's picture from reddit **Kitten** → Get a kitten's picture from reddit
-
-        [Support server](https://discord.gg/kTbqgSeDBH)        [Bot invite](https://discord.com/api/oauth2/authorize?client_id=731371995979055136&permissions=8&scope=bot)
-        """, color=0x7b68ee
-        )
+        Current prefix: **{prefix}**
+        """, color=color
+    )
+    em.add_field(name="😂 Meme", value="Reddit memes")
+    em.add_field(name="🐶 Pup", value="Puppy pictures")
+    em.add_field(name="🐱 Kitten", value="Kitten pictures")
+    em.add_field(name="⌨️ AFK", value="Go AFK")
+    em.add_field(name="🖥️ Ping", value="Check ping")
     em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
     await ctx.send(embed=em)
+
+
+async def Utils(self, ctx):
+    prefix = get_prefix(ctx.guild, message=ctx.message)
+    em = discord.Embed(
+        title="The *classified* commands",
+        description=
+        f"""
+        Current prefix: **{prefix}**
+        """, color=color
+    )
+    em.add_field(name="👮 Ban", value="Ban a member")
+    em.add_field(name="👮 Kick", value="Kick a member")
+    em.add_field(name="👮 Unban", value="Unban a user")
+    em.add_field(name="♻️ Clear", value="Delete messages")
+    em.set_footer(icon_url=self.client.user.avatar_url, text=f"Requested by {ctx.author.name}")
+    await ctx.send(embed=em)
+
 
 
 async def reg(self, ctx):
     prefix = get_prefix(ctx.guild, message=ctx.message)
     em = discord.Embed(
         title="Help page",
-        description=f"Current prefix: **{prefix}**\nTo select a category do help (categoryname)", color=0x7b68ee)
+        description=f"Current prefix: **{prefix}**\nTo select a category do help (categoryname)", color=color)
     em.add_field(name="🎵 Music", value="Music commands")
     em.add_field(name="⚒️ Utility", value="Utility commands")
     em.add_field(name="🤹‍♂️ Member", value="Member commands")
