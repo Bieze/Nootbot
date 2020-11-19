@@ -3,3 +3,4 @@
 poetry.lock
 pyproject.toml
 /logs/
+keep_alive.py
