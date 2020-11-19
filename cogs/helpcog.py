@@ -54,7 +54,7 @@ async def Music(self, ctx):
         description=
         f"""
         Current prefix: **{prefix}**
-        """
+        """, color=color
     )
     em.add_field(name="🎵 Play", value="Play music")
     em.add_field(name="🔄 Loop", value="Loop music")
