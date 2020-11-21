@@ -1,14 +1,16 @@
 import discord
 import traceback
 import sys
+import asyncio
 import json
 import math
-from discord.ext import commands
+from discord.ext import tasks, commands
 
 
 class Background(commands.Cog):
   def __init__(self, client):
     self.client = client
+    self.status.start()
   
   @commands.Cog.listener()
   async def on_error(self, ctx, error):
@@ -129,6 +131,29 @@ class Background(commands.Cog):
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
 
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
+
+  @tasks.loop()
+  async def status(self):
+      await self.client.change_presence(
+	    activity=discord.Activity(
+	        type=discord.ActivityType.listening,
+	        name=f'for my default prefix "n!"!'))
+      await asyncio.sleep(5)
+      await self.client.change_presence(
+	    activity=discord.Activity(
+	        type=discord.ActivityType.watching,
+	        name=f"your servers!"))
+      await asyncio.sleep(5)
+      await self.client.change_presence(
+        activity=discord.Activity(
+            type = discord.ActivityType.listening,
+            name="to the big scary dog outside barking!"))
+      await asyncio.sleep(5)
+      await self.client.change_presence(
+        activity=discord.Activity(
+            type = discord.ActivityType.listening,
+            name="to the smol cat hiss at the dogs"))
 
 def setup(client):
     client.add_cog(Background(client))
