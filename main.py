@@ -4,9 +4,9 @@ import sys
 import subprocess
 import time
 import json
-#from src.keep_alive import keep_alive
 sys.dont_write_bytecode = True
 from discord.ext import commands
+from dotenv import load_dotenv
 
 
 def get_prefix(client, message):
@@ -19,6 +19,9 @@ client = commands.Bot(command_prefix=get_prefix, help_command=None)
 
 intents = discord.Intents.all()
 
+
+load_dotenv()
+load = os.getenv("TOKEN")
 
 subprocess.Popen(['java', '-jar', 'src/Lavalink.jar'])
 time.sleep(40)
@@ -38,4 +41,4 @@ async def on_ready():
     time.sleep(10)
 
 
-client.run(os.getenv("TOKEN"))
+client.run(load)
