@@ -11,6 +11,20 @@ class Background(commands.Cog):
   def __init__(self, client):
     self.client = client  
 
+
+  @commands.Cog.listener()
+  async def on_message(self, message):
+      mention = message.mentions
+      afk = discord.utils.get(message.guild.roles, name = "AFK")
+      for m in mention:
+        try:
+            if afk in mention:
+                await message.channel.send(f"{m.name} is AFK!")
+        except:
+            print()
+        await self.client.process_commands(message)
+          
+
   @commands.Cog.listener()
   async def on_error(self, ctx, error):
       print(error) 

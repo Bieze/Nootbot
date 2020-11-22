@@ -8,55 +8,27 @@ import datetime
 from discord.ext import commands
 
 
-#def dbr(message):
-    #author = message.author.id
-    #with open('alist.json', 'r') as f:
-        #reason = json.load(f)
-
-    #reason.pop(str(author))
-
-    #with open('alist.json', 'w') as f:
-        #json.dump(reason, f, indent=4)
-
-
-#def dba(message):
-    #author = message.author.id
-    #with open('alist.json', 'w') as f:
-        #reason = json.load(f)
-
-    #reason[str(author)] = "No reason"
-
-    #with open('ServerPrefixes.json', 'w') as f:
-        #json.dump(reason, f, indent=4)
-
-
 class Commands(commands.Cog):
   def __init__(self, client):
     self.client = client
 
 
-  #@commands.command()
-  #async def AFK(self, ctx, message=None):
-        #var = discord.utils.get(ctx.guild.roles, name = "AFK")
-        #nick1 = f"[AFK] {ctx.author.display_name}"
-        #nick2 = nick1.replace("AFK", "")
-        #try:
-            #await dbr(message)
-            #await ctx.author.remove_roles(var)
-            #await ctx.author.edit(nick=nick2)
-            #await ctx.send(f"Welcome back {ctx.author.mention}, I have removed your afk")
-        #except:
-            #print('ERROR: COULD NOT REMOVE ROLE')
-            #await ctx.send("ERROR: COULD NOT REMOVE AFK ROLE")
-        #finally:
-                #try:
-                    #await dba(message)
-                    #await ctx.author.edit(nick=nick1)
-                    #await ctx.author.add_roles(var)
-                #except:
-                    #await ctx.send("ERROR: COULDN'T UPDATE")
-                    #print("ERROR: COULDN'T UPDATE")
-      
+  @commands.command()
+  async def AFK(self, ctx):
+      nick2 = f"[AFK] {ctx.author.display_name}"
+      nick1 = nick2.replace('[AFK]', '')
+      afk = discord.utils.get(ctx.guild.roles, name = "AFK")
+      if afk in ctx.author.roles:
+          await ctx.send(f"Welcome back {ctx.author.mention}!")
+          await ctx.author.edit(nick=nick1)
+          await ctx.author.remove_roles(afk)
+      else:
+          await ctx.author.edit(nick=nick2)
+          await ctx.author.add_roles(afk)
+          await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
+          await ctx.send("I made you AFK " + ctx.author.mention)
+      #
+      #await ctx.author.add_roles(var)
 
 
   @commands.command()
