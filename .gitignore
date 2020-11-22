@@ -1,6 +1,6 @@
 /__pycache__/
-.env
 poetry.lock
 pyproject.toml
 /logs/
-keep_alive.py
+/bot-env/
+.env

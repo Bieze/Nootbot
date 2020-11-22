@@ -9,15 +9,15 @@ from discord.ext import tasks, commands
 
 class Background(commands.Cog):
   def __init__(self, client):
-    self.client = client
-    self.status.start()
-  
+    self.client = client  
+
   @commands.Cog.listener()
   async def on_error(self, ctx, error):
       print(error) 
 
+
   @commands.Cog.listener()
-  async def on_guild_remove(guild):
+  async def on_guild_remove(self, guild):
     with open('ServerPrefixes.json', 'r') as f:
         prefixes = json.load(f)
 
@@ -26,6 +26,7 @@ class Background(commands.Cog):
     with open('ServerPrefixes.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
         
+
   @commands.Cog.listener()      
   async def on_guild_join(self, guild): 
     with open('ServerPrefixes.json', 'r') as f:
@@ -39,6 +40,8 @@ class Background(commands.Cog):
         if channel.permissions_for(guild.me).send_messages:
             perms = discord.Permissions(send_messages=False, read_messages=True)
             await guild.create_role(name="Muted", permissions=perms)
+            perms1 = discord.Permissions(send_messages=True, read_messages=True)
+            await guild.create_role(name="AFK", permissions=perms1)
             em = discord.Embed(
                 title="Thanks for invting me into your server!", color=0x8A2BE2)
             em.set_thumbnail(url=guild.icon_url)
@@ -110,7 +113,6 @@ class Background(commands.Cog):
 
         if isinstance(error, commands.UserInputError):
             await ctx.send("Invalid input.")
-            await self.send_command_help(ctx)
             print(error)
             return
 
@@ -132,28 +134,6 @@ class Background(commands.Cog):
 
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
-
-  @tasks.loop()
-  async def status(self):
-      await self.client.change_presence(
-	    activity=discord.Activity(
-	        type=discord.ActivityType.listening,
-	        name=f'for my default prefix "n!"!'))
-      await asyncio.sleep(5)
-      await self.client.change_presence(
-	    activity=discord.Activity(
-	        type=discord.ActivityType.watching,
-	        name=f"your servers!"))
-      await asyncio.sleep(5)
-      await self.client.change_presence(
-        activity=discord.Activity(
-            type = discord.ActivityType.listening,
-            name="to the big scary dog outside barking!"))
-      await asyncio.sleep(5)
-      await self.client.change_presence(
-        activity=discord.Activity(
-            type = discord.ActivityType.listening,
-            name="to the smol cat hiss at the dogs"))
 
 def setup(client):
     client.add_cog(Background(client))
