@@ -15,9 +15,18 @@ def get_prefix(client, message):
 
     return prefixes[str(message.guild.id)]
 
-client = commands.Bot(command_prefix=get_prefix, help_command=None)
 
-intents = discord.Intents.all()
+client = commands.Bot(
+    command_prefix=get_prefix, 
+    help_command=None,
+    activity = discord.Activity(name='your servers!', 
+    type=discord.ActivityType.watching),
+    intents = discord.Intents.all())
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        client.load_extension(f'cogs.{filename[:-3]}')
+        print(f'loading {filename}')
+
 
 
 load_dotenv()
@@ -27,18 +36,7 @@ subprocess.Popen(['java', '-jar', 'src/Lavalink.jar'])
 time.sleep(40)
 
 @client.event
-async def on_ready():
-
+async def on_ready():   
     print("Running...")
-    for filename in os.listdir('./cogs'):
-	    if filename.endswith('.py'):
-		    client.load_extension(f'cogs.{filename[:-3]}')
-		    print(f'loading {filename}')
-    await client.change_presence(
-	    activity=discord.Activity(
-	        type=discord.ActivityType.watching,
-	        name=f"your servers!"))
-    time.sleep(10)
-
 
 client.run(load)
