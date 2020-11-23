@@ -4,3 +4,4 @@ pyproject.toml
 /logs/
 /bot-env/
 .env
+.DS_Store
