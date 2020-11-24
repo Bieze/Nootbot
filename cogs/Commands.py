@@ -37,7 +37,35 @@ class Commands(commands.Cog):
         ping = (time.monotonic() - before) * 1000
         await ctx.send(f"Ping Pong! ```{int(ping)}ms```")
 
-  
+
+  @commands.command()
+  async def say(self, ctx, *, words=None):
+        if words == None:
+            em = discord.Embed(description="<:Nooterror:777330881845133352> What do you mean magic man?!", inline=False, color=0xff0000)
+            await ctx.send(embed=em)
+        else:
+            await ctx.message.delete()
+            await asyncio.sleep(1)
+            await ctx.send("{}" .format(words))
+
+
+  @commands.command()
+  async def server(self, ctx):
+        guild = ctx.guild
+        em = discord.Embed(
+			title="Information about " + ctx.guild.name,
+			color=randint(0, 0xffffff),
+			timestamp=datetime.datetime.utcnow())
+        em.set_thumbnail(url=ctx.guild.icon_url)
+        em.add_field(name="Created at?", value=guild.created_at.strftime('%a, %#d %B %Y, %I:%M %p'), inline=True)
+        em.add_field(name="Members?", value=guild.member_count)
+        em.add_field(name="Owner?", value=guild.owner)
+        em.add_field(name="Verification level?", value=guild.verification_level)
+        em.add_field(name="Guild id?", value=guild.id)
+        em.set_footer(icon_url=ctx.guild.icon_url, text=f"Requested by {ctx.author.name} at ")
+        await ctx.send(embed=em)
+
+
   @commands.command(aliases=['whois', 'userinfo'])
   async def user(self, ctx, member: discord.Member = None):
         if member is None:
@@ -75,33 +103,7 @@ class Commands(commands.Cog):
 		    icon_url=member.avatar_url,
 		    text=f'Requested By: {ctx.author.name}')
         await ctx.send(embed=embed)
-
-  @commands.command()
-  async def say(self, ctx, *, words=None):
-        if words == None:
-            em = discord.Embed(description="<:Nooterror:777330881845133352> What do you mean magic man?!", inline=False, color=0xff0000)
-            await ctx.send(embed=em)
-        else:
-            await ctx.message.delete()
-            await asyncio.sleep(1)
-            await ctx.send("{}" .format(words))
-
-
-  @commands.command()
-  async def server(self, ctx):
-        guild = ctx.guild
-        em = discord.Embed(
-			title="Information about " + ctx.guild.name,
-			color=randint(0, 0xffffff),
-			timestamp=datetime.datetime.utcnow())
-        em.set_thumbnail(url=ctx.guild.icon_url)
-        em.add_field(name="Created at?", value=guild.created_at.strftime('%a, %#d %B %Y, %I:%M %p'), inline=True)
-        em.add_field(name="Members?", value=guild.member_count)
-        em.add_field(name="Owner?", value=guild.owner)
-        em.add_field(name="Verification level?", value=guild.verification_level)
-        em.add_field(name="Guild id?", value=guild.id)
-        em.set_footer(icon_url=ctx.guild.icon_url, text=f"Requested by {ctx.author.name} at ")
-        await ctx.send(embed=em)
+        
 
 def setup(client):
     client.add_cog(Commands(client))

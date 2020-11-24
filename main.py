@@ -22,21 +22,29 @@ client = commands.Bot(
     activity = discord.Activity(name='your servers!', 
     type=discord.ActivityType.watching),
     intents = discord.Intents.all())
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')
-        print(f'loading {filename}')
-
 
 
 load_dotenv()
 load = os.getenv("TOKEN")
 
+
 subprocess.Popen(['java', '-jar', 'src/Lavalink.jar'])
 time.sleep(40)
 
+
 @client.event
-async def on_ready():   
-    print("Running...")
+async def on_ready():
+    print(
+        """
+====================================
+|           Developed by:          |
+|            DistinctNoot          |
+=====================================
+        """)
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            client.load_extension(f'cogs.{filename[:-3]}')
+            print(f'loading {filename}')
+    
 
 client.run(load)
