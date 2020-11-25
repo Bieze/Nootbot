@@ -5,6 +5,8 @@ import random
 import json
 from random import randint
 import datetime
+import sys
+sys.dont_write_bytecode = True
 from discord.ext import commands
 
 
@@ -14,21 +16,44 @@ class Commands(commands.Cog):
 
 
   @commands.command()
-  async def AFK(self, ctx):
+  async def AFK(self, ctx, reason=None):
       nick2 = f"[AFK] {ctx.author.display_name}"
       nick1 = nick2.replace('[AFK]', '')
       afk = discord.utils.get(ctx.guild.roles, name = "AFK")
       if afk in ctx.author.roles:
-          await ctx.send(f"Welcome back {ctx.author.mention}!")
+          await ctx.channel.send(f"Welcome back {ctx.author.mention}!")
           await ctx.author.edit(nick=nick1)
           await ctx.author.remove_roles(afk)
       else:
           await ctx.author.edit(nick=nick2)
           await ctx.author.add_roles(afk)
-          await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
-          await ctx.send("I made you AFK " + ctx.author.mention)
-      #
-      #await ctx.author.add_roles(var)
+          await ctx.channel.send("I made you AFK " + ctx.author.mention)
+
+
+  @commands.command()
+  async def topic(self, ctx):
+      questions = [
+          'What is your favorite game?',
+          'What changed your child hood?',
+          'What was the most significant change in your life?',
+          'What is your favorite food?',
+          'Are you vegan?',
+          'What is your favorite animal?',
+          'What do you like to do?',
+          'Favorite school subject?',
+          'Have you ever seen snow?',
+          'Have you ever tried dragon fruit?',
+          'What languages do you speak?',
+          'Where are you from?',
+          'Do you code? if so, in which languages?',
+          'What holidays do you celebrate?',
+          'Favorite artist/Favorite song?',
+          'Favorite TV show',
+          'Where are you from?',
+          'What advice do you have for the next generation?',
+          'Do you like anime?']
+
+      await ctx.send(f'topic: **{random.choice(questions)}**')
 
 
   @commands.command()

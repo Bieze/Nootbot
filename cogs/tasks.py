@@ -1,9 +1,11 @@
 import discord
 import traceback
-import sys
+import os
 import asyncio
 import json
 import math
+import sys
+sys.dont_write_bytecode = True
 from discord.ext import tasks, commands
 
 
@@ -15,6 +17,17 @@ class Background(commands.Cog):
   @commands.Cog.listener()
   async def on_error(self, ctx, error):
       print(error) 
+
+
+  @commands.Cog.listener()
+  async def on_message(self, message):
+      nick2 = f"[AFK] {message.author.display_name}"
+      nick1 = nick2.replace('[AFK]', '')
+      afk = discord.utils.get(message.guild.roles, name = "AFK")
+      if afk in message.author.roles:
+          await message.channel.send(f"Welcome back {message.author.mention}")
+          await message.author.edit(nick=nick1)
+          await message.author.remove_roles(afk)
 
 
   @commands.Cog.listener()

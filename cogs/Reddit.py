@@ -4,6 +4,8 @@ from discord.ext import commands
 import asyncio
 import random
 from random import randint
+import sys
+sys.dont_write_bytecode = True
 from discord.ext.commands import BucketType, cooldown
 
 reddit = praw.Reddit(client_id='c_85u5DZ793OFQ',

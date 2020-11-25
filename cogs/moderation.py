@@ -5,6 +5,8 @@ import json
 import random
 from datetime import date
 import time
+import sys
+sys.dont_write_bytecode = True
 from random import randint
 from discord.utils import get
 from discord.ext import commands

@@ -1,6 +1,8 @@
 import re
 import discord
 import lavalink
+import sys
+sys.dont_write_bytecode = True
 from discord.ext import commands
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
