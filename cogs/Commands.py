@@ -15,7 +15,7 @@ class Commands(commands.Cog):
     self.client = client
 
 
-  @commands.command()
+  @commands.command(aliases=['afk'])
   async def AFK(self, ctx, reason=None):
       nick2 = f"[AFK] {ctx.author.display_name}"
       nick1 = nick2.replace('[AFK]', '')
@@ -30,7 +30,7 @@ class Commands(commands.Cog):
           await ctx.channel.send("I made you AFK " + ctx.author.mention)
 
 
-  @commands.command()
+  @commands.command(aliases=['Topic', 'topics', 'Topics', 'topix', 'Topx'])
   async def topic(self, ctx):
       questions = [
           'What is your favorite game?',
@@ -56,14 +56,14 @@ class Commands(commands.Cog):
       await ctx.send(f'topic: **{random.choice(questions)}**')
 
 
-  @commands.command()
+  @commands.command(aliases=['Ping'])
   async def ping(self, ctx):
         before = time.monotonic()
         ping = (time.monotonic() - before) * 1000
         await ctx.send(f"Ping Pong! ```{int(ping)}ms```")
 
 
-  @commands.command()
+  @commands.command(aliases=['Say'])
   async def say(self, ctx, *, words=None):
         if words == None:
             em = discord.Embed(description="<:Nooterror:777330881845133352> What do you mean magic man?!", inline=False, color=0xff0000)
@@ -74,7 +74,7 @@ class Commands(commands.Cog):
             await ctx.send("{}" .format(words))
 
 
-  @commands.command()
+  @commands.command(aliases=['Server'])
   async def server(self, ctx):
         guild = ctx.guild
         em = discord.Embed(
@@ -91,7 +91,7 @@ class Commands(commands.Cog):
         await ctx.send(embed=em)
 
 
-  @commands.command(aliases=['whois', 'userinfo'])
+  @commands.command(aliases=['whois', 'userinfo', 'User'])
   async def user(self, ctx, member: discord.Member = None):
         if member is None:
             member = ctx.author

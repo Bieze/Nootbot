@@ -16,7 +16,7 @@ class Helpcog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @commands.command(aliases=['Help'])
     async def help(self, ctx, category=None):
         if category == None:
             category = await reg(self, ctx)

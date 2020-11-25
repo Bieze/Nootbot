@@ -20,17 +20,6 @@ class Background(commands.Cog):
 
 
   @commands.Cog.listener()
-  async def on_message(self, message):
-      nick2 = f"[AFK] {message.author.display_name}"
-      nick1 = nick2.replace('[AFK]', '')
-      afk = discord.utils.get(message.guild.roles, name = "AFK")
-      if afk in message.author.roles:
-          await message.channel.send(f"Welcome back {message.author.mention}")
-          await message.author.edit(nick=nick1)
-          await message.author.remove_roles(afk)
-
-
-  @commands.Cog.listener()
   async def on_guild_remove(self, guild):
     with open('ServerPrefixes.json', 'r') as f:
         prefixes = json.load(f)
@@ -81,73 +70,14 @@ class Background(commands.Cog):
   @commands.Cog.listener()  
   async def on_command_error(self, ctx, error):
         c = self.client.get_channel(776583901321101352)
-        await c.send(error)
-        # if command has local error handler, return
-        if hasattr(ctx.command, 'on_error'):
-            return
-
-        # get the original exception
-        error = getattr(error, 'original', error)
-
-        if isinstance(error, commands.CommandNotFound):
-            await ctx.send("<:Nooterror:777330881845133352> Command does not exist!")
-            print(error)
-
-        if isinstance(error, commands.BotMissingPermissions):
-            missing = [perm.replace('_', ' ').replace('guild', 'server').title() for perm in error.missing_perms]
-            if len(missing) > 2:
-                fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
-            else:
-                fmt = ' and '.join(missing)
-            _message = '<:Nooterror:777330881845133352> I need the **{}** permission(s) to run this command.'.format(fmt)
-            await ctx.send(_message)
-            print(error)
-            return
-
-        if isinstance(error, commands.DisabledCommand):
-            await ctx.send('This command has been disabled.')
-            print(error)
-            return
-
-        if isinstance(error, commands.CommandOnCooldown):
-            await ctx.send("<:Nooterror:777330881845133352> This command is on cooldown, please retry in {}s.".format(math.ceil(error.retry_after)))
-            print(error)
-            return
-
-        if isinstance(error, commands.MissingPermissions):
-            missing = [perm.replace('_', ' ').replace('guild', 'server').title() for perm in error.missing_perms]
-            if len(missing) > 2:
-                fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
-            else:
-                fmt = ' and '.join(missing)
-            _message = '<:Nooterror:777330881845133352> You need the **{}** permission(s) to use this command.'.format(fmt)
-            await ctx.send(_message)
-            print(error)
-            return
-
-        if isinstance(error, commands.UserInputError):
-            await ctx.send("Invalid input.")
-            print(error)
-            return
-
-        if isinstance(error, commands.NoPrivateMessage):
-            try:
-                await ctx.author.send('<:Nooterror:777330881845133352> This command cannot be used in direct messages.')
-            except discord.Forbidden:
-                pass
-            print(error)
-            return
-
-        if isinstance(error, commands.CheckFailure):
-            await ctx.send("<:Nooterror:777330881845133352> You do not have permission to use this command.")
-            print(error)
-            return
-
-        # ignore all other exception types, but print them to stderr
-        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-
-        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-
+        await ctx.send("<:Nooterror:777330881845133352> Oh no! It looks like I might be missing permissions or you are missing permissions.")
+        await c.send(
+            f"""
+            ```py
+            {error}
+            ```
+            """
+        )
 
 def setup(client):
     client.add_cog(Background(client))

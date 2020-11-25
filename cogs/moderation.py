@@ -15,26 +15,22 @@ class moderation(commands.Cog):
   def __init__(self, client):
     self.client = client
 
-  @commands.command()
+  @commands.command(aliases=['Ban'])
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
   async def ban(self, ctx, member : discord.User=None, *, reason="Nothing"):
-    if member == None:
+      if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
-    elif member == ctx.guild_owner:
-        await ctx.send("<:Nooterror:777330881845133352> Cannot ban guild owner!")
-    else:
+        return
+      else:
         await ctx.message.delete()
         await ctx.guild.ban(user=member, reason=reason)
         em=discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {member.name}", inline=False, color=0x32CD32)
         await ctx.send(embed=em)
-        
-        channel = await member.create_dm()
-        await channel.send(f"You have been banned from **{ctx.guild.name}** for: **{reason}**" .format(reason))
-
+      
     
-  @commands.command()
+  @commands.command(aliases=['Kick'])
   @commands.guild_only()
   @commands.has_permissions(kick_members=True)
   async def kick(self, ctx, member : discord.User=None, *, reason="Nothing"):
@@ -53,7 +49,7 @@ class moderation(commands.Cog):
         await channel.send(f"You have been kicked from **{ctx.guild.name} for: **{reason}**" .format(reason))
 
     
-  @commands.command()
+  @commands.command(aliases=['Unban'])
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
   async def unban(self, ctx, userid=None):
@@ -68,7 +64,7 @@ class moderation(commands.Cog):
         await ctx.send(embed=em)
 
 
-  @commands.command()
+  @commands.command(aliases=['Mute', 'Silence', 'silence'])
   @commands.guild_only()
   @commands.has_permissions(manage_messages=True)
   async def mute(self, ctx, member : discord.Member=None):
@@ -81,7 +77,7 @@ class moderation(commands.Cog):
               em = discord.Embed(description="<:Nootsuccess:777332367853355009> Muted " + member.name, inline=False, color=0x32CD32)
               await ctx.send(embed=em)
 
-  @commands.command()
+  @commands.command(aliases=['Unmute', 'unsilence', 'Unsilence'])
   @commands.guild_only()
   @commands.has_permissions(manage_messages=True)
   async def unmute(self, ctx, member : discord.Member=None):
@@ -97,7 +93,7 @@ class moderation(commands.Cog):
 
 # Unmute and Mute commands up for improvements!
 
-  @commands.command()
+  @commands.command(aliases=['Change'])
   async def change(self, ctx, *, status):
       if ctx.author.id == 541722893747224589:
         await self.client.change_presence(
@@ -109,7 +105,7 @@ class moderation(commands.Cog):
           em = discord.Embed(description="<:Nooterror:777330881845133352> Sorry, but you don't have permissions to change the bot status!")
           await ctx.send(embed=em)
 
-  @commands.command()
+  @commands.command(aliases=['Prefix'])
   @commands.has_permissions(manage_guild=True)
   async def prefix(self, ctx, prefix):
     t = time.localtime()
@@ -134,7 +130,7 @@ class moderation(commands.Cog):
     await message.add_reaction(str('✅'))
 
   
-  @commands.command()
+  @commands.command(aliases=['Clear'])
   @commands.has_permissions(manage_messages=True)
   async def clear(self, ctx, amount=1):
       await ctx.channel.purge(limit=amount+1)

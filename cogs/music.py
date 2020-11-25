@@ -155,7 +155,7 @@ class Music(commands.Cog):
         else:
             track = results['tracks'][0]
             embed.title = 'Track Enqueued'
-            embed.description = f'[{track["info"]["title"]}]({track["info"]["uri"]})'
+            embed.description = f'[{track["author"]["info"]["title"]["length"]}]({track["info"]["uri"]})'
 
             # You can attach additional information to audiotracks through kwargs, however this involves
             # constructing the AudioTrack class yourself.
@@ -169,7 +169,7 @@ class Music(commands.Cog):
         if not player.is_playing:
             await player.play()
 
-    @commands.command(aliases=['dc'])
+    @commands.command(aliases=['dc', 'leave'])
     async def disconnect(self, ctx):
         """ Disconnects the player from the voice channel and clears its queue. """
         player = self.client.lavalink.player_manager.get(ctx.guild.id)
