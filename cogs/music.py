@@ -114,6 +114,7 @@ class Music(commands.Cog):
       await ctx.message.add_reaction(str('➡️'))
       await ctx.send(embed=em)
 
+
     @commands.command(aliases=['p'])
     async def play(self, ctx, *, query: str):
         """ Searches and plays a song from a given query. """
@@ -155,7 +156,7 @@ class Music(commands.Cog):
         else:
             track = results['tracks'][0]
             embed.title = 'Track Enqueued'
-            embed.description = f'[{track["author"]["info"]["title"]["length"]}]({track["info"]["uri"]})'
+            embed.description = f'[{track["info"]["title"]}]({track["info"]["uri"]})'
 
             # You can attach additional information to audiotracks through kwargs, however this involves
             # constructing the AudioTrack class yourself.
@@ -163,11 +164,6 @@ class Music(commands.Cog):
             player.add(requester=ctx.author.id, track=track)
         await ctx.message.add_reaction(str('✅'))
         await ctx.send(embed=embed)
-
-        # We don't want to call .play() if the player is playing as that will effectively skip
-        # the current track.
-        if not player.is_playing:
-            await player.play()
 
     @commands.command(aliases=['dc', 'leave'])
     async def disconnect(self, ctx):
