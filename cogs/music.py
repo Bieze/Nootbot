@@ -1,8 +1,6 @@
 import re
 import discord
 import lavalink
-import sys
-sys.dont_write_bytecode = True
 from discord.ext import commands
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
@@ -114,7 +112,6 @@ class Music(commands.Cog):
       await ctx.message.add_reaction(str('➡️'))
       await ctx.send(embed=em)
 
-
     @commands.command(aliases=['p'])
     async def play(self, ctx, *, query: str):
         """ Searches and plays a song from a given query. """
@@ -165,7 +162,12 @@ class Music(commands.Cog):
         await ctx.message.add_reaction(str('✅'))
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['dc', 'leave'])
+        # We don't want to call .play() if the player is playing as that will effectively skip
+        # the current track.
+        if not player.is_playing:
+            await player.play()
+
+    @commands.command(aliases=['dc'])
     async def disconnect(self, ctx):
         """ Disconnects the player from the voice channel and clears its queue. """
         player = self.client.lavalink.player_manager.get(ctx.guild.id)
@@ -282,3 +284,4 @@ class Music(commands.Cog):
 def setup(client):
     client.add_cog(Music(client))
     return
+# 0x4B0082
