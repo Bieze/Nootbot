@@ -82,21 +82,24 @@ class Background(commands.Cog):
 
   @commands.Cog.listener()
   async def on_member_join(self, member):
-      c = self.client.get_channel(776556035921412139)
-      await c.send(f"Please welcome **{member.mention}**")
-      await member.add_roles(777284452971708416)
+      if member.guild.id == 776556035921412136:
+        c = self.client.get_channel(776556035921412139)
+        await c.send(f"Please welcome **{member.mention}**")
+        await member.add_roles(777284452971708416)
 
 
   @commands.Cog.listener()
   async def on_member_ban(self, member):
-      c = self.client.get_channel(776556035921412139)
-      await c.send("Banned **" + member.name + "**")
+      if member.guild.id == 776556035921412136:
+        c = self.client.get_channel(776556035921412139)
+        await c.send("Banned **" + member.name + "**")
 
 
   @commands.Cog.listener()
   async def on_member_remove(self, member):
-      c = self.client.get_channel
-      await c.send(f"**{member.mention}** just left")
+      if member.guild.id == 776556035921412136:
+        c = self.client.get_channel
+        await c.send(f"**{member.mention}** just left")
 
 def setup(client):
     client.add_cog(Background(client))
