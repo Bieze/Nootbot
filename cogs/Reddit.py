@@ -25,11 +25,13 @@ class Reddit(commands.Cog):
     async def memes(self, ctx):
         subreddit = reddit.subreddit("memes")
         all_subs = []
-
-        hot = subreddit.hot(limit = 50000)
+        hot = subreddit.hot(limit = 50)
 
         for submission in hot:
             all_subs.append(submission)
+
+        if reddit.submission.over_18:
+            await ctx.send("The submission detected was NSFW. Please retry the command.")
 
         random_sub = random.choice(all_subs)
 
@@ -46,17 +48,17 @@ class Reddit(commands.Cog):
         embed.set_image(url = url)
         embed.set_author(name=f'Posted by {author} from r/{sub}')
         embed.set_image(url=url)
-        embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}    ↑ {up}')
+        embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}')
         await ctx.send(embed=embed)
 
 
     @commands.command(aliases=['Pup', 'Puppy', 'puppy', 'Dog', 'dog'])
     @commands.cooldown(1, 10, BucketType.user)
     async def pup(self, ctx):
-        subreddit = reddit.subreddit("memes")
+        subreddit = reddit.subreddit("puppies")
         all_subs = []
 
-        hot = subreddit.hot(limit = 50000)
+        hot = subreddit.hot(limit = 50)
 
         for submission in hot:
             all_subs.append(submission)
@@ -76,17 +78,17 @@ class Reddit(commands.Cog):
         embed.set_image(url = url)
         embed.set_author(name=f'Posted by {author} from r/{sub}')
         embed.set_image(url=url)
-        embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}    ↑ {up}')
+        embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}')
         await ctx.send(embed=embed)
 
 
     @commands.command(aliases=['Kitten', 'Cat', 'cat', 'feline', 'Feline'])
     @commands.cooldown(1, 10, BucketType.user)
     async def kitten(self, ctx):
-        subreddit = reddit.subreddit("memes")
+        subreddit = reddit.subreddit("kittens")
         all_subs = []
 
-        hot = subreddit.hot(limit = 50000)
+        hot = subreddit.hot(limit = 50)
 
         for submission in hot:
             all_subs.append(submission)
@@ -106,7 +108,7 @@ class Reddit(commands.Cog):
         embed.set_image(url = url)
         embed.set_author(name=f'Posted by {author} from r/{sub}')
         embed.set_image(url=url)
-        embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}    ↑ {up}')
+        embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}')
         await ctx.send(embed=embed)
 
 
