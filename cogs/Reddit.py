@@ -30,9 +30,6 @@ class Reddit(commands.Cog):
         for submission in hot:
             all_subs.append(submission)
 
-        if reddit.submission.over_18:
-            await ctx.send("The submission detected was NSFW. Please retry the command.")
-
         random_sub = random.choice(all_subs)
 
         name = random_sub.title
