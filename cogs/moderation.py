@@ -204,7 +204,7 @@ class moderation(commands.Cog):
 
 
   @commands.command(aliases=['goodbye-config'])
-  @commands.has_permissions(manage_guild=True)
+  @commands.has_permissions(manage_messages=True)
   async def goodbye_config(self, ctx, *, text):
     db = sqlite3.connect("Welcome.sqlite")
     cursor = db.cursor()
@@ -225,7 +225,7 @@ class moderation(commands.Cog):
 
 
   @commands.command(aliases=['delguild-config'])
-  @commands.has_permissions(manage_guild=True)
+  @commands.has_permissions(manage_messages=True)
   async def delguild(self, ctx):
     db = sqlite3.connect("Welcome.sqlite")
     cursor = db.cursor()
@@ -235,6 +235,7 @@ class moderation(commands.Cog):
       await ctx.send("This guild is not in the database")
     else:
       sql = (f"DELETE FROM main WHERE guild_id = {ctx.guild.id}")
+      await ctx.send("<:Nootsuccess:777332367853355009> Removed guild from database.")
       cursor.execute(sql)
       db.commit()
       cursor.close
