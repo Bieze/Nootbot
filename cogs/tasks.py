@@ -4,6 +4,7 @@ import os
 import asyncio
 import json
 import math
+import sqlite3
 import sys
 sys.dont_write_bytecode = True
 from discord.ext import tasks, commands
@@ -82,17 +83,51 @@ class Background(commands.Cog):
 
   @commands.Cog.listener()
   async def on_member_join(self, member):
-      if member.guild.id == 776556035921412136:
-        c = self.client.get_channel(776556035921412139)
-        await c.send(f"Please welcome **{member.mention}**.")
-        await member.add_roles(777284452971708416)
+      db = sqlite3.connect("Welcome.sqlite")
+      cursor = db.cursor()
+      cursor.execute(f"SELECT channel_id FROM main WHERE guild_id = {member.guild.id}")
+      result = cursor.fetchone()
+      if result is None:
+          return
+      else:
+          mention = member.mention
+          members = len(list(member.guild.members))
+          user = member.name
+          guild = member.guild
+          cursor.execute(f"SELECT welcome FROM main WHERE guild_id = {guild.id}")
+          result1 = cursor.fetchone()
+
+          channel = self.client.get_channel(int(result[0]))
+
+          await channel.send(str(result1[0]) .format(members=members, mention=mention, user=user, guild=guild))
+      #if member.guild.id == 776556035921412136:
+        #c = self.client.get_channel(776556035921412139)
+        #await c.send(f"Please welcome **{member.mention}**.")
+        #await member.add_roles(777284452971708416)
 
 
   @commands.Cog.listener()
   async def on_member_remove(self, member):
-      if member.guild.id == 776556035921412136:
-          c = self.client.get_channel(776556035921412139)
-          await c.send(f"**{member.name} left.")
+      db = sqlite3.connect("Welcome.sqlite")
+      cursor = db.cursor()
+      cursor.execute(f"SELECT channel_id FROM main WHERE guild_id = {member.guild.id}")
+      result = cursor.fetchone()
+      if result is None:
+          return
+      else:
+          mention = member.mention
+          members = len(list(member.guild.members))
+          user = member.name
+          guild = member.guild
+          cursor.execute(f"SELECT goodbye FROM main WHERE guild_id = {guild.id}")
+          result1 = cursor.fetchone()
+
+          channel = self.client.get_channel(int(result[0]))
+
+          await channel.send(str(result1[0]) .format(members=members, mention=mention, user=user, guild=guild))
+          #c = self.client.get_channel(776556035921412139)
+          #await c.send(f"**{member.name} left.")
+
 
 def setup(client):
     client.add_cog(Background(client))

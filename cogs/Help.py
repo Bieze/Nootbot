@@ -16,7 +16,7 @@ class Helpcog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=['Help'])
+    @commands.command()
     async def help(self, ctx, category=None):
         if category == None:
             category = await reg(self, ctx)
@@ -100,6 +100,10 @@ async def Utils(self, ctx):
     em.add_field(name="👮 Kick", value="Kick a member")
     em.add_field(name="👮 Unban", value="Unban a user")
     em.add_field(name="♻️ Clear", value="Delete messages")
+    em.add_field(name="👋 welcome-config", value="Configure your welcome message")
+    em.add_field(name="👋 goodbye-config", value="Configure your goodbye message")
+    em.add_field(name="👋 channel-config", value="Configure your greeting channel")
+    em.add_field(name="🧹 delguild", value="Delete the guild from the database")
     em.set_footer(icon_url=self.client.user.avatar_url, text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=em)
 

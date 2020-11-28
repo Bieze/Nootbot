@@ -4,6 +4,7 @@ import sys
 import subprocess
 import time
 import json
+import sqlite3
 sys.dont_write_bytecode = True
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -21,7 +22,9 @@ client = commands.Bot(
     help_command=None,
     activity = discord.Activity(name='your servers!', 
     type=discord.ActivityType.watching),
-    intents = discord.Intents.all())
+    intents = discord.Intents.all(),
+    case_insensitive = True
+    )
 
 
 load_dotenv()
@@ -34,17 +37,36 @@ time.sleep(40)
 
 @client.event
 async def on_ready():
-    print(
+    print(a)
+    db = sqlite3.connect("Welcome.sqlite")
+    cursor = db.cursor()
+    cursor.execute(
         """
-====================================
-|           Developed by:          |
-|            DistinctNoot          |
-=====================================
-        """)
+        CREATE TABLE IF NOT EXISTS main(
+            guild_id TEXT,
+            welcome TEXT,
+            goodbye TEXT,
+            channel_id TEXT
+        )
+
+        CREATE TABLE IF NOT EXISTS warn(
+            reason TEXT,
+            id TEXT,
+            moderator TEXT,
+        )
+        """
+    )
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
             client.load_extension(f'cogs.{filename[:-3]}')
             print(f'loading {filename}')
     
+
+a = """
+====================================
+|           Developed by:          |
+|            DistinctNoot          |
+=====================================
+        """
 
 client.run(load)

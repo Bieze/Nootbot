@@ -20,7 +20,7 @@ class Reddit(commands.Cog):
         self.all_subs = []
 
 
-    @commands.command(aliases=['meme', 'Memes', 'Meme'])
+    @commands.command(aliases=['meme'])
     @commands.cooldown(1, 10, BucketType.user)
     async def memes(self, ctx):
         subreddit = reddit.subreddit("memes")
@@ -36,7 +36,7 @@ class Reddit(commands.Cog):
         url = random_sub.url
         comments = random_sub.comments
         upvote = random_sub.upvote_ratio
-        up = random_sub.score
+    
         author = random_sub.author
         sub = random_sub.subreddit
 
@@ -49,7 +49,7 @@ class Reddit(commands.Cog):
         await ctx.send(embed=embed)
 
 
-    @commands.command(aliases=['Pup', 'Puppy', 'puppy', 'Dog', 'dog'])
+    @commands.command(aliases=['puppy','dog'])
     @commands.cooldown(1, 10, BucketType.user)
     async def pup(self, ctx):
         subreddit = reddit.subreddit("puppies")
@@ -66,7 +66,7 @@ class Reddit(commands.Cog):
         url = random_sub.url
         comments = random_sub.comments
         upvote = random_sub.upvote_ratio
-        up = random_sub.score
+        
         author = random_sub.author
         sub = random_sub.subreddit
 
@@ -79,7 +79,7 @@ class Reddit(commands.Cog):
         await ctx.send(embed=embed)
 
 
-    @commands.command(aliases=['Kitten', 'Cat', 'cat', 'feline', 'Feline'])
+    @commands.command(aliases=['Cat','feline'])
     @commands.cooldown(1, 10, BucketType.user)
     async def kitten(self, ctx):
         subreddit = reddit.subreddit("kittens")
@@ -96,7 +96,7 @@ class Reddit(commands.Cog):
         url = random_sub.url
         comments = random_sub.comments
         upvote = random_sub.upvote_ratio
-        up = random_sub.score
+        
         author = random_sub.author
         sub = random_sub.subreddit
 

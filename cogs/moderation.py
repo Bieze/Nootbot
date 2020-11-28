@@ -6,6 +6,7 @@ import random
 from datetime import date
 import time
 import sys
+import sqlite3
 sys.dont_write_bytecode = True
 from random import randint
 from discord.utils import get
@@ -15,7 +16,12 @@ class moderation(commands.Cog):
   def __init__(self, client):
     self.client = client
 
-  @commands.command(aliases=['Ban'])
+
+  #@commands.command()
+  #async def warn(self, ctx, user : discord.User, reason="None provided."):
+
+
+  @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
   async def ban(self, ctx, member : discord.User=None, *, reason="Nothing"):
@@ -30,7 +36,7 @@ class moderation(commands.Cog):
         await ctx.send(embed=em)
       
     
-  @commands.command(aliases=['Kick'])
+  @commands.command()
   @commands.guild_only()
   @commands.has_permissions(kick_members=True)
   async def kick(self, ctx, member : discord.User=None, *, reason="Nothing"):
@@ -49,7 +55,7 @@ class moderation(commands.Cog):
         await channel.send(f"You have been kicked from **{ctx.guild.name} for: **{reason}**" .format(reason))
 
     
-  @commands.command(aliases=['Unban'])
+  @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
   async def unban(self, ctx, userid=None):
@@ -64,7 +70,7 @@ class moderation(commands.Cog):
         await ctx.send(embed=em)
 
 
-  @commands.command(aliases=['Mute', 'Silence', 'silence'])
+  @commands.command(aliases=['silence'])
   @commands.guild_only()
   @commands.has_permissions(manage_messages=True)
   async def mute(self, ctx, member : discord.Member=None):
@@ -77,7 +83,7 @@ class moderation(commands.Cog):
               em = discord.Embed(description="<:Nootsuccess:777332367853355009> Muted " + member.name, inline=False, color=0x32CD32)
               await ctx.send(embed=em)
 
-  @commands.command(aliases=['Unmute', 'unsilence', 'Unsilence'])
+  @commands.command(aliases=['unsilence'])
   @commands.guild_only()
   @commands.has_permissions(manage_messages=True)
   async def unmute(self, ctx, member : discord.Member=None):
@@ -93,7 +99,7 @@ class moderation(commands.Cog):
 
 # Unmute and Mute commands up for improvements!
 
-  @commands.command(aliases=['Change'])
+  @commands.command()
   async def change(self, ctx, *, status):
       if ctx.author.id == 541722893747224589:
         await self.client.change_presence(
@@ -105,7 +111,7 @@ class moderation(commands.Cog):
           em = discord.Embed(description="<:Nooterror:777330881845133352> Sorry, but you don't have permissions to change the bot status!")
           await ctx.send(embed=em)
 
-  @commands.command(aliases=['Prefix'])
+  @commands.command()
   @commands.has_permissions(manage_guild=True)
   async def prefix(self, ctx, prefix):
     t = time.localtime()
@@ -130,13 +136,110 @@ class moderation(commands.Cog):
     await message.add_reaction(str('✅'))
 
   
-  @commands.command(aliases=['Clear'])
+  @commands.command()
   @commands.has_permissions(manage_messages=True)
   async def clear(self, ctx, amount=1):
       await ctx.channel.purge(limit=amount+1)
       await ctx.send(f"<:Nootsuccess:777332367853355009> Cleared {amount} messages!")
       await asyncio.sleep(5)
       await ctx.channel.purge(limit=1) 
+
+
+  @commands.group(invoke_without_command=True)
+  async def welcome(self, ctx):
+      color = 0x7b68ee
+      em = discord.Embed(
+          title="Welcome config",
+          description="Configure your welcome commands",
+          color=color)
+      em.add_field(name="delguild", value="Delete the guild from the database")
+      em.add_field(name="welcome-config", value="Configure the welcome message")
+      em.add_field(name="goodbye-config", value="Configure the goodbye message")
+      em.add_field(name="Channel-config", value="Configure the welcome channel")
+      em.add_field(name="Setguild", value="Set the guild for welcome message")
+      await ctx.send(embed=em)
+
+
+  @commands.command(aliases=['channel-config'])
+  @commands.has_permissions(manage_guild=True)
+  async def channel_config(self, ctx, channel:discord.TextChannel):
+    db = sqlite3.connect("Welcome.sqlite")
+    cursor = db.cursor()
+    cursor.execute(f"SELECT channel_id FROM main WHERE guild_id = {ctx.guild.id}")
+    result = cursor.fetchone()
+    if result is None:
+      sql = ("INSERT INTO main(guild_id, channel_id) VALUES(?,?)")
+      val = (ctx.guild.id, channel.id)
+      await ctx.send(f"Channel has been set as {channel.mention}")
+    elif result is not None:
+      sql = ("UPDATE main SET channel_id = ? WHERE guild_id = ?")
+      val = (channel.id, ctx.guild.id)
+      await ctx.send(f"<:Nootsuccess:777332367853355009> Channel has been set as {channel.mention}")
+    cursor.execute(sql, val)
+    db.commit()
+    cursor.close
+    db.close
+
+
+
+  @commands.command(aliases=['welcome-config'])
+  @commands.has_permissions(manage_guild=True)
+  async def welcome_config(self, ctx, *, text):
+    db = sqlite3.connect("Welcome.sqlite")
+    cursor = db.cursor()
+    cursor.execute(f"SELECT welcome FROM main WHERE guild_id = {ctx.guild.id}")
+    result = cursor.fetchone()
+    if result is None:
+      sql = ("INSERT INTO main(guild_id, welcome) VALUES(?,?)")
+      val = (ctx.guild.id, text)
+      await ctx.send(f"Set the welcome message.")
+    elif result is not None:
+      sql = ("UPDATE main SET welcome = ? WHERE guild_id = ?")
+      val = (text, ctx.guild.id)
+      await ctx.send(f"<:Nootsuccess:777332367853355009> Set the welcome message.")
+    cursor.execute(sql, val)
+    db.commit()
+    cursor.close
+    db.close
+
+
+  @commands.command(aliases=['goodbye-config'])
+  @commands.has_permissions(manage_guild=True)
+  async def goodbye_config(self, ctx, *, text):
+    db = sqlite3.connect("Welcome.sqlite")
+    cursor = db.cursor()
+    cursor.execute(f"SELECT goodbye FROM main WHERE guild_id = {ctx.guild.id}")
+    result = cursor.fetchone()
+    if result is None:
+      sql = ("INSERT INTO main(guild_id, goodbye) VALUES(?,?)")
+      val = (ctx.guild.id, text)
+      await ctx.send(f"Set the goodbye message.")
+    elif result is not None:
+      sql = ("UPDATE main SET goodbye = ? WHERE guild_id = ?")
+      val = (text, ctx.guild.id)
+      await ctx.send(f"<:Nootsuccess:777332367853355009> Set the goodbye message.")
+    cursor.execute(sql, val)
+    db.commit()
+    cursor.close
+    db.close
+
+
+  @commands.command(aliases=['delguild-config'])
+  @commands.has_permissions(manage_guild=True)
+  async def delguild(self, ctx):
+    db = sqlite3.connect("Welcome.sqlite")
+    cursor = db.cursor()
+    cursor.execute(f"SELECT goodbye FROM main WHERE guild_id = {ctx.guild.id}")
+    result = cursor.fetchone()
+    if result is None:
+      await ctx.send("This guild is not in the database")
+    else:
+      sql = (f"DELETE FROM main WHERE guild_id = {ctx.guild.id}")
+      cursor.execute(sql)
+      db.commit()
+      cursor.close
+      db.close
+
 
 def setup(client):
     client.add_cog(moderation(client))

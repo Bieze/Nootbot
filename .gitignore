@@ -1,7 +1,10 @@
-/__pycache__/
+cogs/__pycache__/
 poetry.lock
 pyproject.toml
 /logs/
 /bot-env/
 .env
 .DS_Store
+.vscode
+
+__pycache__

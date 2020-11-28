@@ -6,6 +6,7 @@ import json
 from random import randint
 import datetime
 import sys
+import sqlite3
 sys.dont_write_bytecode = True
 from discord.ext import commands
 
@@ -15,7 +16,7 @@ class Commands(commands.Cog):
     self.client = client
 
 
-  @commands.command(aliases=['afk'])
+  @commands.command()
   async def AFK(self, ctx, reason=None):
       nick2 = f"[AFK] {ctx.author.display_name}"
       nick1 = nick2.replace('[AFK]', '')
@@ -30,7 +31,7 @@ class Commands(commands.Cog):
           await ctx.channel.send("I made you AFK " + ctx.author.mention)
 
 
-  @commands.command(aliases=['Topic', 'topics', 'Topics', 'topix', 'Topx'])
+  @commands.command(aliases=['topics','topix', 'Topx'])
   async def topic(self, ctx):
       questions = [
           'What is your favorite game?',
@@ -56,14 +57,14 @@ class Commands(commands.Cog):
       await ctx.send(f'topic: **{random.choice(questions)}**')
 
 
-  @commands.command(aliases=['Ping'])
+  @commands.command()
   async def ping(self, ctx):
         before = time.monotonic()
         ping = (time.monotonic() - before) * 1000
         await ctx.send(f"Ping Pong! ```{int(ping)}ms```")
 
 
-  @commands.command(aliases=['Say'])
+  @commands.command()
   async def say(self, ctx, *, words=None):
         if words == None:
             em = discord.Embed(description="<:Nooterror:777330881845133352> What do you mean magic man?!", inline=False, color=0xff0000)
@@ -74,7 +75,7 @@ class Commands(commands.Cog):
             await ctx.send("{}" .format(words))
 
 
-  @commands.command(aliases=['Server'])
+  @commands.command()
   async def server(self, ctx):
         guild = ctx.guild
         em = discord.Embed(
@@ -91,21 +92,21 @@ class Commands(commands.Cog):
         await ctx.send(embed=em)
 
 
-  @commands.command(aliases=['whois', 'userinfo', 'User'])
+  @commands.command(aliases=['whois', 'userinfo'])
   async def user(self, ctx, member: discord.Member = None):
         if member is None:
             member = ctx.author
         if (member.status == discord.Status.online):
-            status = "<:Online:769418800718020619> Online"
+            stat = "<:Online:769418800718020619> Online"
             pass
         elif (member.status == discord.Status.offline):
-            status = "<:Offline:769418801007427594> Offline"
+            stat = "<:Offline:769418801007427594> Offline"
             pass
         elif (member.status == discord.Status.idle):
-            status = "<:Idle:769418800940056596> Idle"
+            stat = "<:Idle:769418800940056596> Idle"
             pass
         elif (member.status == discord.Status.dnd):
-	        status = "<:DND:769418800843063297> Do Not Disturb"
+	        stat = "<:DND:769418800843063297> Do Not Disturb"
 
         roles = [role for role in member.roles[:1]]
         embed = discord.Embed(
@@ -119,7 +120,7 @@ class Commands(commands.Cog):
 		    name='Registered at:',
 		    value=member.created_at.strftime('%a, %#d %B %Y, %I:%M %p'))
         embed.add_field(name='Bot?', value=f'{member.bot}')
-        embed.add_field(name='Status?', value=status)
+        embed.add_field(name='Status?', value=f"{stat}")
         embed.add_field(name='Top Role?', value=f'{member.top_role}')
         embed.add_field(
 		    name=f"Roles ({len(roles)})",
@@ -128,7 +129,7 @@ class Commands(commands.Cog):
 		    icon_url=member.avatar_url,
 		    text=f'Requested By: {ctx.author.name}')
         await ctx.send(embed=embed)
-        
+
 
 def setup(client):
     client.add_cog(Commands(client))
