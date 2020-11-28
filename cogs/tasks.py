@@ -8,6 +8,7 @@ import sqlite3
 import sys
 sys.dont_write_bytecode = True
 from discord.ext import tasks, commands
+from discord.ext.commands import MissingPermissions
 
 
 class Background(commands.Cog):
@@ -70,16 +71,30 @@ class Background(commands.Cog):
 
   @commands.Cog.listener()  
   async def on_command_error(self, ctx, error):
-        c = self.client.get_channel(776583901321101352)
-        await ctx.send("<:Nooterror:777330881845133352> Oh no! It looks like I might be missing permissions or you are missing permissions.")
-        await c.send(
-            f"""
-            ```py
-            {error}
-            ```
-            """
-        )
+        # if command has local error handler, return
+        if hasattr(ctx.command, 'on_error'):
+            print(error)
+            return
 
+        # get the original exception
+        error = getattr(error, 'original', error)
+
+
+        if isinstance(error, commands.CommandNotFound):
+            await ctx.send("<:Nooterror:777330881845133352> Command does not exist")
+
+        elif isinstance(error, commands.MissingPermissions):
+            missing = [perm.replace('_', ' ').replace('guild', 'server').title() for perm in error.missing_perms]
+            if len(missing) > 2:
+                fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
+            else:
+                fmt = ' and '.join(missing)
+            _message = '<:Nooterror:777330881845133352> You need the **{}** permission(s) to use this command.'.format(fmt)
+            await ctx.send(_message)
+            return
+        else:
+            print(error)
+            await ctx.send("<:Nooterror:777330881845133352> I could be missing permissions.")
 
   @commands.Cog.listener()
   async def on_member_join(self, member):

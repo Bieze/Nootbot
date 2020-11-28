@@ -24,16 +24,46 @@ class moderation(commands.Cog):
   @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
-  async def ban(self, ctx, member : discord.User=None, *, reason="Nothing"):
+  async def ban(self, ctx, member : discord.User, *, reason="Nothing"):
       if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
         return
-      else:
-        await ctx.message.delete()
+      guild = self.client.get_guild(ctx.guild.id)
+      await ctx.message.delete()
+      if guild.get_member(member.id) is not None:
+        c = await member.create_dm()
+        await c.send(f"You have been banned from {ctx.guild.name} for: {reason}" .format(reason))
+        em = discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {member.name}{member.discriminator}", inline=False, color=0x32CD32)
         await ctx.guild.ban(user=member, reason=reason)
-        em=discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {member.name}", inline=False, color=0x32CD32)
         await ctx.send(embed=em)
+      else:
+        username = await self.client.fetch_user(int(member.id))
+        user = discord.Object(id=member.id)
+        await ctx.guild.ban(user=user, reason=reason)
+        em = discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {username}", inline=False, color=0x32CD32)
+        await ctx.send(embed=em)
+
+
+
+
+      #else:
+        #try:
+          #guild = self.client.get_guild(ctx.guild.id)
+          #channel = member.create_dm()
+          #await channel.send(f"You have been banned from {ctx.guild.name} for {reason}" .format(reason))
+          #await ctx.guild.ban(user=member, reason=reason)
+        #except:
+          #print("User in guild")
+        #finally:
+          #try:
+        #username = await self.client.fetch_user(int(member))
+        #user = discord.Object(id=member)
+        #await ctx.guild.ban(user=member)
+        #await ctx.message.delete()
+        #await ctx.guild.ban(user=user, reason=reason)
+        #em=discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {username}", inline=False, color=0x32CD32)
+        #await ctx.send(embed=em)
       
     
   @commands.command()
@@ -43,8 +73,6 @@ class moderation(commands.Cog):
     if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
-    elif member == ctx.guild_owner:
-        await ctx.send("<:Nooterror:777330881845133352> Cannot kick guild owner!")
     else:
         await ctx.message.delete()
         await ctx.guild.kick(user=member, reason=reason)
@@ -59,15 +87,17 @@ class moderation(commands.Cog):
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
   async def unban(self, ctx, userid=None):
-    if id == None:
+    if userid == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a user!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
+        return
     else:
         username = await self.client.fetch_user(int(userid))
         user = discord.Object(id=userid)
         await ctx.guild.unban(user)
-        em = discord.Embed(description=f"<:Nootsuccess:777332367853355009> Unbanned the {username}", inline=False, color=0x32CD32)
+        em = discord.Embed(description=f"<:Nootsuccess:777332367853355009> Unbanned {username}", inline=False, color=0x32CD32)
         await ctx.send(embed=em)
+        return
 
 
   @commands.command(aliases=['silence'])

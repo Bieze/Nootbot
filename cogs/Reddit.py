@@ -7,6 +7,7 @@ from random import randint
 import sys
 sys.dont_write_bytecode = True
 from discord.ext.commands import BucketType, cooldown
+from discord.ext.commands import CommandOnCooldown
 
 reddit = praw.Reddit(client_id='c_85u5DZ793OFQ',
                      client_secret='iBBJIhWmv6uB3E6R7UNlgC7t8Go',
@@ -49,6 +50,16 @@ class Reddit(commands.Cog):
         await ctx.send(embed=embed)
 
 
+
+    @memes.error
+    async def memes_error(self, ctx, error):
+        if isinstance(error, CommandOnCooldown):
+            msg = '<:Nooterror:777330881845133352> You are on meme cooldown try again in: {:.2f}s'.format(error.retry_after)
+            await ctx.send(msg)
+        else:
+            raise error
+
+
     @commands.command(aliases=['puppy','dog'])
     @commands.cooldown(1, 10, BucketType.user)
     async def pup(self, ctx):
@@ -77,6 +88,16 @@ class Reddit(commands.Cog):
         embed.set_image(url=url)
         embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}')
         await ctx.send(embed=embed)
+
+
+    
+    @pup.error
+    async def pup_error(self, ctx, error):
+        if isinstance(error, CommandOnCooldown):
+            msg = '<:Nooterror:777330881845133352> You are on pup cooldown try again in: {:.2f}s'.format(error.retry_after)
+            await ctx.send(msg)
+        else:
+            raise error
 
 
     @commands.command(aliases=['Cat','feline'])
@@ -108,6 +129,15 @@ class Reddit(commands.Cog):
         embed.set_footer(text=f'\t💬 {len(comments)}    ⇅ {upvote}')
         await ctx.send(embed=embed)
 
+
+
+    @kitten.error
+    async def kitten_error(self, ctx, error):
+        if isinstance(error, CommandOnCooldown):
+            msg = '<:Nooterror:777330881845133352> You are on kitten cooldown try again in: {:.2f}s'.format(error.retry_after)
+            await ctx.send(msg)
+        else:
+            raise error
 
 def setup(client):
     client.add_cog(Reddit(client))
