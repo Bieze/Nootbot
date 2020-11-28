@@ -48,12 +48,6 @@ async def on_ready():
             goodbye TEXT,
             channel_id TEXT
         )
-
-        CREATE TABLE IF NOT EXISTS warn(
-            reason TEXT,
-            id TEXT,
-            moderator TEXT,
-        )
         """
     )
     for filename in os.listdir('./cogs'):
