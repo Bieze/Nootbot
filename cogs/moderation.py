@@ -34,7 +34,7 @@ class moderation(commands.Cog):
   @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
-  async def ban(self, ctx, member : discord.User, *, reason="Nothing"):
+  async def ban(self, ctx, member : discord.User=None, *, reason="Nothing"):
       if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
