@@ -11,6 +11,9 @@ from discord.ext import tasks, commands
 from discord.ext.commands import MissingPermissions
 
 
+color=0x7b68ee
+
+
 class Background(commands.Cog):
   def __init__(self, client):
     self.client = client  

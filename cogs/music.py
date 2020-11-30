@@ -1,9 +1,12 @@
 import re
 import discord
 import lavalink
+import os
 from discord.ext import commands
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
+
+
 
 
 class Music(commands.Cog):

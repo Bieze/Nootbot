@@ -5,6 +5,7 @@ import asyncio
 import random
 from random import randint
 import sys
+import os
 sys.dont_write_bytecode = True
 from discord.ext.commands import BucketType, cooldown
 from discord.ext.commands import CommandOnCooldown
@@ -14,6 +15,9 @@ reddit = praw.Reddit(client_id='c_85u5DZ793OFQ',
                      username = "Electronbot123",
                      password = "Electronbot123",
                      user_agent = "Memes")
+
+
+
 
 class Reddit(commands.Cog):
     def __init__(self, client):

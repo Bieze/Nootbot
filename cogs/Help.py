@@ -1,8 +1,11 @@
 import discord
 import json
 import sys
+import os
 sys.dont_write_bytecode = True
 from discord.ext import commands
+
+
 
 
 def get_prefix(client, message):

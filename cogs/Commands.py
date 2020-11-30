@@ -3,12 +3,16 @@ import time
 import asyncio
 import random
 import json
+import os
 from random import randint
 import datetime
 import sys
 import sqlite3
 sys.dont_write_bytecode = True
 from discord.ext import commands
+
+
+color = 0x7b68ee
 
 
 class Commands(commands.Cog):
@@ -120,7 +124,7 @@ class Commands(commands.Cog):
 		    name='Registered at:',
 		    value=member.created_at.strftime('%a, %#d %B %Y, %I:%M %p'))
         embed.add_field(name='Bot?', value=f'{member.bot}')
-        embed.add_field(name='Status?', value=f"{stat}")
+        embed.add_field(name='Status?', value=stat)
         embed.add_field(name='Top Role?', value=f'{member.top_role}')
         embed.add_field(
 		    name=f"Roles ({len(roles)})",
@@ -129,6 +133,7 @@ class Commands(commands.Cog):
 		    icon_url=member.avatar_url,
 		    text=f'Requested By: {ctx.author.name}')
         await ctx.send(embed=embed)
+
 
 
 def setup(client):

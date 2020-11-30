@@ -6,11 +6,17 @@ import random
 from datetime import date
 import time
 import sys
+import os
 import sqlite3
 sys.dont_write_bytecode = True
 from random import randint
 from discord.utils import get
 from discord.ext import commands
+
+color = 0x7b68ee
+
+
+
 
 class moderation(commands.Cog):
   def __init__(self, client):
@@ -18,7 +24,11 @@ class moderation(commands.Cog):
 
 
   #@commands.command()
-  #async def warn(self, ctx, user : discord.User, reason="None provided."):
+  #async def warn(self, ctx, member : discord.Member, reason="Non provided"):
+    #db = sqlite3.connect("Warnings.sqlite")
+    #cursor = db.cursor()
+    #cursor.execute(f"SELECT reason FROM main WHERE member_id = {member.id} AND guild_id = {ctx.guild.id}")
+    #result = cursor.fetchone()
 
 
   @commands.command()
