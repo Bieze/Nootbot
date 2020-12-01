@@ -32,6 +32,11 @@ class moderation(commands.Cog):
 
 
   @commands.command()
+  async def shutdown(self, ctx):
+    if ctx.author.id == 731371995979055136:
+      await self.client.logout()
+
+  @commands.command()
   @commands.guild_only()
   @commands.has_permissions(ban_members=True)
   async def ban(self, ctx, member : discord.User=None, *, reason="Nothing"):
@@ -47,6 +52,9 @@ class moderation(commands.Cog):
         em = discord.Embed(description=f"<:Nootsuccess:777332367853355009> Banned {member.name}{member.discriminator}", inline=False, color=0x32CD32)
         await ctx.guild.ban(user=member, reason=reason)
         await ctx.send(embed=em)
+      elif member.bot is True:
+        e = discord.Embed(description="<:Nooterror:777330881845133352> Cannot ban a bot", inline=False, color=0xff0000)
+        await ctx.send(embed=e)
       else:
         username = await self.client.fetch_user(int(member.id))
         user = discord.Object(id=member.id)
@@ -83,6 +91,9 @@ class moderation(commands.Cog):
     if member == None:
         emd = discord.Embed(description="<:Nooterror:777330881845133352> Please specify a member!", inline=False, color=0xff0000)
         await ctx.send(embed=emd)
+    elif member.bot is True:
+        e = discord.Embed(description="<:Nooterror:777330881845133352> Cannot kick a bot", inline=False, color=0xff0000)
+        await ctx.send(embed=e)
     else:
         await ctx.message.delete()
         await ctx.guild.kick(user=member, reason=reason)
@@ -186,7 +197,7 @@ class moderation(commands.Cog):
 
 
   @commands.group(invoke_without_command=True)
-  async def welcome(self, ctx):
+  async def config(self, ctx):
       color = 0x7b68ee
       em = discord.Embed(
           title="Welcome config",
@@ -197,10 +208,11 @@ class moderation(commands.Cog):
       em.add_field(name="goodbye-config", value="Configure the goodbye message")
       em.add_field(name="Channel-config", value="Configure the welcome channel")
       em.add_field(name="Setguild", value="Set the guild for welcome message")
+      em.add_field(name="config-cheats", value="See the cheat sheet")
       await ctx.send(embed=em)
 
 
-  @commands.command(aliases=['channel-config'])
+  @commands.command(aliases=['channel-config', 'c-c', 'cc'])
   @commands.has_permissions(manage_guild=True)
   async def channel_config(self, ctx, channel:discord.TextChannel):
     db = sqlite3.connect("Welcome.sqlite")
@@ -222,7 +234,7 @@ class moderation(commands.Cog):
 
 
 
-  @commands.command(aliases=['welcome-config'])
+  @commands.command(aliases=['welcome-config', 'w-c', 'wc'])
   @commands.has_permissions(manage_guild=True)
   async def welcome_config(self, ctx, *, text):
     db = sqlite3.connect("Welcome.sqlite")
@@ -243,7 +255,7 @@ class moderation(commands.Cog):
     db.close
 
 
-  @commands.command(aliases=['goodbye-config'])
+  @commands.command(aliases=['goodbye-config', 'g-c', 'gc'])
   @commands.has_permissions(manage_messages=True)
   async def goodbye_config(self, ctx, *, text):
     db = sqlite3.connect("Welcome.sqlite")
@@ -264,7 +276,7 @@ class moderation(commands.Cog):
     db.close
 
 
-  @commands.command(aliases=['delguild-config'])
+  @commands.command(aliases=['delguild-config', 'd-c'])
   @commands.has_permissions(manage_messages=True)
   async def delguild(self, ctx):
     db = sqlite3.connect("Welcome.sqlite")
@@ -280,6 +292,14 @@ class moderation(commands.Cog):
       db.commit()
       cursor.close
       db.close
+
+  @commands.command(aliases=['config-cheats', 'cheats-config'])
+  async def cheatsheet(self, ctx):
+    em = discord.Embed(color=color)
+    em.add_field(name="mention", value="mention a member")
+    em.add_field(name="user", value="member name")
+    em.add_field(name="members", value="567 member")
+    await ctx.send(embed=em)
 
 
 def setup(client):

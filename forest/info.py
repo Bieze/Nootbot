@@ -1,55 +1,56 @@
 from sqlite3.dbapi2 import sqlite_version, sqlite_version_info
 import sys
+sys.dont_write_bytecode=True
 import discord
 import platform
 
-async def OWNER_NAME():
+def OWNER_NAME():
     """
     Noot Bot Owner name
     """
     OWNER_NAME == 'DistinctNoot'
 
 
-async def OWNER_DISCRIMINATOR():
+def OWNER_DISCRIMINATOR():
     """
     Noot Bot Owner discriminator
     """
     OWNER_DISCRIMINATOR == 6969
 
 
-async def OWNER_ID():
+def OWNER_ID():
     """
     Noot Bot Owner ID
     """
     OWNER_ID == 541722893747224589
 
 
-async def BOT_VERSION():
+def BOT_VERSION():
     BOT_VERSION == "BOT VERSION: v1.1"
 
 
-async def BOT_NAME():
+def BOT_NAME():
     """
     Noot Bot name
     """
     BOT_NAME == "Noot Bot"
 
 
-async def BOT_ID():
+def BOT_ID():
     """
     Noot Bot ID
     """
     BOT_ID == 731371995979055136
 
 
-async def PYV():
+def pythonv():
     """
     Get your python version
     """
-    PYV == f"PYTHON VERSION: {platform.python_version()}"
+    pythonv == f"PYTHON VERSION: {platform.python_version()}"
 
 
-async def osv():
+def osv():
     """
     Get your OS
     """
@@ -62,7 +63,7 @@ async def osv():
         print(platform.release())
 
 
-async def sqlitev():
+def sqlitev():
     """
     Get info about your sqlite version
     """
@@ -70,7 +71,7 @@ async def sqlitev():
     print(f"SQLITE INFO: {sqlite_version_info}")
 
 
-async def discordv():
+def discordv():
     """
     Get info about your discord version
     """

@@ -1,17 +1,18 @@
-from sqlite3.dbapi2 import sqlite_version, sqlite_version_info
 import discord
 import os
 import sys
+import asyncio
 import subprocess
 import json
 import time
 import sqlite3
-from info import discordv
-from info import sqlitev
-from info import osv
-from info import PYV
+from forest.info import discordv
+from forest.info import sqlitev
+from forest.info import osv
+from forest.info import pythonv
 sys.dont_write_bytecode = True
 from discord.ext import commands
+from sqlite3.dbapi2 import sqlite_version, sqlite_version_info
 from dotenv import load_dotenv
 
 
@@ -42,10 +43,10 @@ time.sleep(5)
 
 @client.event
 async def on_ready():
-    await discordv()
-    await sqlitev()
-    await PYV()
-    await osv()
+    discordv()
+    sqlitev()
+    pythonv()
+    osv()
     print(f"Logged in.")
 
     db = sqlite3.connect("Welcome.sqlite")

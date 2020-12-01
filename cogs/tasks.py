@@ -97,7 +97,7 @@ class Background(commands.Cog):
             return
         else:
             print(error)
-            await ctx.send("<:Nooterror:777330881845133352> I could be missing permissions.")
+            await ctx.send("<:Nooterror:777330881845133352> Unknown error, please verify perms.")
 
   @commands.Cog.listener()
   async def on_member_join(self, member):
