@@ -6,15 +6,6 @@ sys.dont_write_bytecode = True
 from discord.ext import commands
 
 
-
-
-def get_prefix(client, message):
-    with open('ServerPrefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    return prefixes[str(message.guild.id)]
-
-
 class Helpcog(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -53,12 +44,11 @@ class Helpcog(commands.Cog):
 color = 0x7b68ee
 
 async def Music(self, ctx):
-    prefix = get_prefix(ctx.guild, message=ctx.message)
     em = discord.Embed(
         title="Music commands",
         description=
         f"""
-        Current prefix: **{prefix}**
+        Current prefix: **>**
         """, color=color
     )
     em.add_field(name="🎵 Play", value="Play music")
@@ -73,12 +63,11 @@ async def Music(self, ctx):
 
 
 async def mem(self, ctx):
-    prefix = get_prefix(ctx.guild, message=ctx.message)
     em = discord.Embed(
         title="The best commands",
         value=
         f"""
-        Current prefix: **{prefix}**
+        Current prefix: **>**
         """, color=color
     )
     em.add_field(name="😂 Meme", value="Reddit memes")
@@ -91,12 +80,11 @@ async def mem(self, ctx):
 
 
 async def Utils(self, ctx):
-    prefix = get_prefix(ctx.guild, message=ctx.message)
     em = discord.Embed(
         title="The *classified* commands",
         description=
         f"""
-        Current prefix: **{prefix}**
+        Current prefix: **>**
         """, color=color
     )
     em.add_field(name="👮 Ban", value="Ban a member")
@@ -113,10 +101,9 @@ async def Utils(self, ctx):
 
 
 async def reg(self, ctx):
-    prefix = get_prefix(ctx.guild, message=ctx.message)
     em = discord.Embed(
         title="Help page",
-        description=f"Current prefix: **{prefix}**\nTo select a category do help (categoryname)", color=color)
+        description=f"Current prefix: **>**\nTo select a category do help (categoryname)", color=color)
     em.add_field(name="🎵 Music", value="Music commands")
     em.add_field(name="⚒️ Utility", value="Utility commands")
     em.add_field(name="🤹‍♂️ Member", value="Member commands")
