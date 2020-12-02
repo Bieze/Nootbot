@@ -16,7 +16,7 @@ color=0x7b68ee
 
 class Background(commands.Cog):
   def __init__(self, client):
-    self.client = client  
+    self.client = client
           
 
   @commands.Cog.listener()
@@ -127,6 +127,7 @@ class Background(commands.Cog):
           await channel.send(str(result1[0]) .format(members=members, mention=mention, user=user, guild=guild))
           #c = self.client.get_channel(776556035921412139)
           #await c.send(f"**{member.name} left.")
+
 
 
 def setup(client):

@@ -1,5 +1,6 @@
 import discord
 import json
+import asyncio
 import sys
 import os
 sys.dont_write_bytecode = True

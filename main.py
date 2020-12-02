@@ -11,16 +11,14 @@ from forest.info import sqlitev
 from forest.info import osv
 from forest.info import pythonv
 sys.dont_write_bytecode = True
-from discord.ext import commands
+from discord.ext import tasks, commands
 from sqlite3.dbapi2 import sqlite_version, sqlite_version_info
-from dotenv import load_dotenv
+from dotenv import load_dotenv  
 
 
 client = commands.Bot(
     command_prefix=">", 
     help_command=None,
-    activity = discord.Activity(name='your servers!', 
-    type=discord.ActivityType.watching),
     intents = discord.Intents.all(),
     case_insensitive = True
     )
@@ -40,8 +38,8 @@ async def on_ready():
     sqlitev()
     pythonv()
     osv()
+    status.start()
     print(f"Logged in.")
-
     db = sqlite3.connect("Welcome.sqlite")
     cursor = db.cursor()
     cursor.execute(
@@ -65,5 +63,20 @@ a = """
             DistinctNoot          
 ====================================
         """
+
+
+@tasks.loop(seconds=5)
+async def status():
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=">"))
+    await asyncio.sleep(5)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"to {len(client.guilds)} servers"))
+    await asyncio.sleep(5)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"to DistinctNoot"))
+    await asyncio.sleep(5)
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="Python 3.3"))
+    await asyncio.sleep(5)
+
+
+
 
 client.run(load)
