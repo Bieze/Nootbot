@@ -27,7 +27,7 @@ class Commands(commands.Cog):
     self.client = client
     
 
-  @commands.command()
+  @commands.command(aliases=['stats'])
   async def statistics(self, ctx):
       now = datetime.datetime.utcnow()
       elapsed = now - starttime
