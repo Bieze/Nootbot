@@ -162,30 +162,6 @@ class moderation(commands.Cog):
           em = discord.Embed(description="<:Nooterror:777330881845133352> Sorry, but you don't have permissions to change the bot status!")
           await ctx.send(embed=em)
 
-  @commands.command()
-  @commands.has_permissions(manage_guild=True)
-  async def prefix(self, ctx, prefix):
-    t = time.localtime()
-    current_time = time.strftime("%I:%M %p", t)
-
-    with open('ServerPrefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes[str(ctx.guild.id)] = prefix
-
-    with open('ServerPrefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
-
-    embed = discord.Embed(
-        color=discord.Color.green(),
-        title="**Success**",
-        description=f"Prefix changed to `{prefix}`"
-    )
-    embed.set_author(name="Prefix Command.", icon_url=self.client.user.avatar_url)
-    embed.set_footer(text=f"Requested by: {ctx.message.author} | Requested at {current_time}")
-    message = await ctx.send(embed=embed)
-    await message.add_reaction(str('✅'))
-
   
   @commands.command()
   @commands.has_permissions(manage_messages=True)

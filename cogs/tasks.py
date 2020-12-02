@@ -24,26 +24,8 @@ class Background(commands.Cog):
       print(error) 
 
 
-  @commands.Cog.listener()
-  async def on_guild_remove(self, guild):
-    with open('ServerPrefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes.pop(str(guild.id))
-
-    with open('ServerPrefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)
-        
-
   @commands.Cog.listener()      
   async def on_guild_join(self, guild): 
-    with open('ServerPrefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    prefixes[str(guild.id)] = 'n!'
-
-    with open('ServerPrefixes.json', 'w') as f:
-        json.dump(prefixes, f, indent=4)   
     for channel in guild.text_channels:
         if channel.permissions_for(guild.me).send_messages:
             perms = discord.Permissions(send_messages=False, read_messages=True)

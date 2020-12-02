@@ -16,15 +16,8 @@ from sqlite3.dbapi2 import sqlite_version, sqlite_version_info
 from dotenv import load_dotenv
 
 
-def get_prefix(client, message):
-    with open('ServerPrefixes.json', 'r') as f:
-        prefixes = json.load(f)
-
-    return prefixes[str(message.guild.id)]
-
-
 client = commands.Bot(
-    command_prefix=get_prefix, 
+    command_prefix=">", 
     help_command=None,
     activity = discord.Activity(name='your servers!', 
     type=discord.ActivityType.watching),
