@@ -3,7 +3,7 @@
 Nootbot is the best dog bot
 <img align="right" src="https://pbs.twimg.com/media/Em1RteRWEAIkhlA?format=jpg&name=medium" height="150" width="150">
 
-What you see here is the creator of this bot -------------------------------------------------------------->
+What you see here is the creator of this bot -------------------------------------->
 
 ## **Noot!**
 -----
