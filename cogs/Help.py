@@ -59,6 +59,7 @@ async def Music(self, ctx):
     em.add_field(name="▶️ Pause", value="Pause music")
     em.add_field(name="⏸ Resume", value="Resume music")
     em.add_field(name="👋 Disconnect", value="Disconnect bot")
+    em.add_field(name="⬇️ Invite", value="[Invite me](https://discord.com/oauth2/authorize?client_id=731371995979055136&permissions=2147483639&scope=bot)")
     em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
     await ctx.send(embed=em)
 
@@ -76,6 +77,7 @@ async def mem(self, ctx):
     em.add_field(name="🐱 Kitten", value="Kitten pictures")
     em.add_field(name="⌨️ AFK", value="Go AFK")
     em.add_field(name="🖥️ Ping", value="Check ping")
+    em.add_field(name="⬇️ Invite", value="[Invite me](https://discord.com/oauth2/authorize?client_id=731371995979055136&permissions=2147483639&scope=bot)")
     em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
     await ctx.send(embed=em)
 
@@ -96,6 +98,7 @@ async def Utils(self, ctx):
     em.add_field(name="👋 goodbye-config", value="Configure your goodbye message")
     em.add_field(name="👋 channel-config", value="Configure your greeting channel")
     em.add_field(name="🧹 delguild", value="Delete the guild from the database")
+    em.add_field(name="⬇️ Invite", value="[Invite me](https://discord.com/oauth2/authorize?client_id=731371995979055136&permissions=2147483639&scope=bot)")
     em.set_footer(icon_url=self.client.user.avatar_url, text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=em)
 
@@ -108,6 +111,7 @@ async def reg(self, ctx):
     em.add_field(name="🎵 Music", value="Music commands")
     em.add_field(name="⚒️ Utility", value="Utility commands")
     em.add_field(name="🤹‍♂️ Member", value="Member commands")
+    em.add_field(name="⬇️ Invite", value="[Invite me](https://discord.com/oauth2/authorize?client_id=731371995979055136&permissions=2147483639&scope=bot)")
     em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
     await ctx.send(embed=em)
 
