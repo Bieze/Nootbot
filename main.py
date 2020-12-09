@@ -1,3 +1,5 @@
+# First imports
+
 import discord
 import os
 import sys
@@ -6,11 +8,17 @@ import subprocess
 import json
 import time
 import sqlite3
+
+# Secondary imports
+
 from forest.info import discordv
 from forest.info import sqlitev
 from forest.info import osv
 from forest.info import pythonv
 sys.dont_write_bytecode = True
+
+# Third imports
+
 from discord.ext import tasks, commands
 from sqlite3.dbapi2 import sqlite_version, sqlite_version_info
 from dotenv import load_dotenv  
@@ -69,9 +77,9 @@ a = """
 async def status():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=">"))
     await asyncio.sleep(5)
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"to {len(client.guilds)} servers"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{len(client.guilds)} servers"))
     await asyncio.sleep(5)
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"to DistinctNoot"))
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"DistinctNoot"))
     await asyncio.sleep(5)
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="Python 3.3"))
     await asyncio.sleep(5)

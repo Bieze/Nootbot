@@ -77,6 +77,7 @@ async def mem(self, ctx):
     em.add_field(name="🐱 Kitten", value="Kitten pictures")
     em.add_field(name="⌨️ AFK", value="Go AFK")
     em.add_field(name="🖥️ Ping", value="Check ping")
+    em.add_field(name="📊 Stat", value="Check my stats")
     em.add_field(name="⬇️ Invite", value="[Invite me](https://discord.com/oauth2/authorize?client_id=731371995979055136&permissions=2147483639&scope=bot)")
     em.set_footer(icon_url=self.client.user.avatar_url, text="Requested by " + ctx.author.name)
     await ctx.send(embed=em)
