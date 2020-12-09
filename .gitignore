@@ -8,3 +8,6 @@ pyproject.toml
 .vscode
 
 __pycache__
+
+
+/Welcome.sqlite/
