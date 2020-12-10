@@ -25,6 +25,11 @@ color = 0x7b68ee
 class Commands(commands.Cog):
   def __init__(self, client):
     self.client = client
+
+
+  @commands.command()
+  async def noot(self, ctx):
+      await ctx.send("<:Noot:786678144747831306>")
     
 
   @commands.command(aliases=['stats'])

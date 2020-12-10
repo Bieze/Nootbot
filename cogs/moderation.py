@@ -278,6 +278,17 @@ class moderation(commands.Cog):
     await ctx.send(embed=em)
 
 
+  @commands.command()
+  async def poll(self, ctx, *, question):
+    em = discord.Embed(
+      title="🗳️ Poll",
+      description="{}" .format(question),
+      color=color)
+    message = await ctx.send(embed=em)
+    await message.add_reaction("👍")
+    await message.add_reaction("👎")
+
+
 def setup(client):
     client.add_cog(moderation(client))
     return
