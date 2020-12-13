@@ -1,7 +1,7 @@
 import re
 import discord
+import math
 import lavalink
-import os
 from discord.ext import commands
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
@@ -206,70 +206,38 @@ class Music(commands.Cog):
         await ctx.message.add_reaction(str('✅'))
         await player.set_pause(False) 
 
-    @commands.command(aliases=['q'])
-    async def queue(self, ctx, *, query: str= None):
+    @commands.command(name='queue')
+    async def queue(self, ctx, page: int = 1):
       player = self.client.lavalink.player_manager.get(ctx.guild.id)
-      if query is not None:
-        # Remove leading and trailing <>. <> may be used to suppress embedding links in Discord.
-        query = query.strip('<>')
 
-        # Check if the user input might be a URL. If it isn't, we can Lavalink do a YouTube search for it instead.
-        # SoundCloud searching is possible by prefixing "scsearch:" instead.
-        if not url_rx.match(query):
-            query = f'ytsearch:{query}'
+      if not player.current:
+        return await ctx.send('Nothing Played or queued.')
 
-        # Get the results for the query from Lavalink.
-        results = await player.node.get_tracks(query)
+      items_per_page = 10
+      p_q = len(player.queue) + 1
+      pages = math.ceil(p_q / items_per_page)
 
-        # Results could be None if Lavalink returns an invalid response (non-JSON/non-200 (OK)).
-        # ALternatively, resullts['tracks'] could be an empty array if the query yielded no tracks.
-        if not results or not results['tracks']:
-            return await ctx.send('Nothing found!')
+      start = (page - 1) * items_per_page
+      end = start + items_per_page
 
-        embed = discord.Embed(color=0x4B0082)
+      queue_list = ''
+      queue_list += f'`Now Playing:` [**{player.current.title}**]({player.current.uri})\n'
+      for index, track in enumerate(player.queue[start:end], start=start):
+        queue_list += f'`{index + 1}.` [**{track.title}**]({track.uri})\n'
+      txt = "End of the queue. Queue more!"
+      queue_list += "``"+txt.center(40, "-")+"``"
 
-        # Valid loadTypes are:
-        #   TRACK_LOADED    - single video/direct URL)
-        #   PLAYLIST_LOADED - direct URL to playlist)
-        #   SEARCH_RESULT   - query prefixed with either ytsearch: or scsearch:.
-        #   NO_MATCHES      - query yielded no results
-        #   LOAD_FAILED     - most likely, the video encountered an exception during loading.
-        if results['loadType'] == 'PLAYLIST_LOADED':
-            tracks = results['tracks']
-
-            for track in tracks:
-                # Add all of the tracks from the playlist to the queue.
-                player.add(requester=ctx.author.id, track=track)
-
-            embed.title = 'Playlist Enqueued!'
-            embed.description = f'{results["playlistInfo"]["name"]} - {len(tracks)} tracks'
-        else:
-            track = results['tracks'][0]
-            embed.title = 'Track Enqueued'
-            embed.description = f'[{track["info"]["title"]}]({track["info"]["uri"]})'
-
-            # You can attach additional information to audiotracks through kwargs, however this involves
-            # constructing the AudioTrack class yourself.
-            track = lavalink.models.AudioTrack(track, ctx.author.id, recommended=True)
-            player.add(requester=ctx.author.id, track=track)
-        await ctx.message.add_reaction(str('✅'))
-        await ctx.send(embed=embed)
-      else:
-        qlist = player.queue
-        testlist = []
-        for item in qlist:
-          l = str(item)
-          h = l.replace('<AudioTrack title=', '')
-          j = h.replace('>', '')
-          k = j.rsplit(' ', 1)[0]
-          testlist.append(k)
-        f = '\n'.join(f'{a}. {b}' for a, b in enumerate(testlist, 1))
-        await ctx.message.add_reaction(str('✅'))
-        await ctx.send(f)
+      embed = discord.Embed(colour=discord.Color.blurple(),
+                          description=f'**{len(player.queue)} tracks**\n\n{queue_list}')
+      embed.set_footer(text=f'Viewing page {page}/{pages}')
+      await ctx.send(embed=embed)
+        
 
     @commands.command()
+    @commands.has_guild_permissions()
     async def remove(self, ctx, index: int):
-        player = self.client.lavalink.players.get(ctx.guild.id)
+        """ Remove a music in queue. """
+        player = self.client.lavalink.player_manager.get(ctx.guild.id)
 
         if not player.queue:
             return await ctx.send('Nothing queued.')
@@ -281,7 +249,6 @@ class Music(commands.Cog):
         removed = player.queue.pop(index)
 
         await ctx.send('Removed **' + removed.title + '** from the queue.')
-        await ctx.message.add_reaction(str('✅'))
 
 
 def setup(client):
