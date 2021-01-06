@@ -35,6 +35,7 @@ class moderation(commands.Cog):
   async def shutdown(self, ctx):
     if ctx.author.id == 731371995979055136:
       await self.client.logout()
+    
 
   @commands.command()
   @commands.guild_only()
