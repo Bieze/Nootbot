@@ -33,7 +33,7 @@ class Background(commands.Cog):
             perms1 = discord.Permissions(send_messages=True, read_messages=True)
             await guild.create_role(name="AFK", permissions=perms1)
             em = discord.Embed(
-                title="Thanks for invting me into your server!", color=0x8A2BE2)
+                title="Thanks for inviting me into your server!", color=0x8A2BE2)
             em.set_thumbnail(url=guild.icon_url)
             em.add_field(
                 name="Here is my thank you note",
