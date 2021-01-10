@@ -61,7 +61,7 @@ class Commands(commands.Cog):
 
 
   @commands.command()
-  async def AFK(self, ctx, reason=None):
+  async def AFK(self, ctx):
       nick2 = f"[AFK] {ctx.author.display_name}"
       nick1 = nick2.replace('[AFK]', '')
       afk = discord.utils.get(ctx.guild.roles, name = "AFK")
