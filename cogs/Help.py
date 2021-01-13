@@ -91,6 +91,8 @@ async def Utils(self, ctx):
         Current prefix: **>**
         """, color=color
     )
+    em.add_field(name="👤 Unmute", value="Unmute a member")
+    em.add_field(name="👤 Mute", value="Mute a member")
     em.add_field(name="👮 Ban", value="Ban a member")
     em.add_field(name="👮 Kick", value="Kick a member")
     em.add_field(name="👮 Unban", value="Unban a user")
